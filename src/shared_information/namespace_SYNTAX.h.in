@@ -1,0 +1,5 @@
+#pragma once
+
+#define _SYNTAX_ "http://www.w3.org/ns/formats/"
+
+#define _SYNTAX_TURTLE_ _SYNTAX_ "Turtle"

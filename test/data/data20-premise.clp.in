@@ -1,0 +1,4 @@
+(defrule rule0
+	=>
+	(<http://white.gobo/ClipsInfoModelRulemachine1#import> "http://example.com/data20-import.ttl" <@ENTAILMENT@>)
+)

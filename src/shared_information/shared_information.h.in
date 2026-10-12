@@ -1,0 +1,52 @@
+#pragma once
+#include <clips.h>
+#include <RIFImporter.h>
+
+#ifndef INFO_MODEL_RULEMACHINE1_INDEX
+#define INFO_MODEL_RULEMACHINE1_INDEX USER_ENVIRONMENT_DATA + @INFO_MODEL_RULEMACHINE1_OFFSET@
+#endif
+
+
+#define FRAMETEMPLATE "Frame"
+#define FRAMESLOTOBJECT "object"
+#define FRAMESLOTSLOTKEY "slotkey"
+#define FRAMESLOTSLOTVALUE "slotvalue"
+
+#define ATOMTEMPLATE "Atom"
+#define ATOMSLOTOP "op"
+#define ATOMSLOTARGS "args"
+#define SUBCLASSTEMPLATE "Subclass"
+#define SUBCLASSSLOTSUB "sub"
+#define SUBCLASSSLOTSUPER "super"
+#define MEMBERTEMPLATE "Member"
+#define MEMBERSLOTINSTANCE "instance"
+#define MEMBERSLOTCLASS "class"
+#define EQUALTEMPLATE "Equal"
+#define EQUALSLOTLEFT "left"
+#define EQUALSLOTRIGHT "right"
+#define ATOMLISTTEMPLATE "AtomList"
+#define ATOMLISTSLOTITEMS "items"
+//#define ATOMLISTSLOTREST "rest"
+
+typedef struct s_ImportLocation ImportLocation;
+
+typedef struct infoModelRulemachine1Data {
+	ImportLocation* import_locations;
+	size_t local_prefix_id;
+} InfoModelRulemachine1Data;
+
+#define LoadingInfoModelRulemachine1Data(theEnv) \
+	((InfoModelRulemachine1Data *) GetEnvironmentData(theEnv, INFO_MODEL_RULEMACHINE1_INDEX))
+
+size_t CIMR1_get_next_local_prefix_id(Environment* env);
+
+
+typedef struct s_ImportLocation {
+	char* iri;
+	char* path;
+	ImportLocation* next;
+} ImportLocation;
+
+ImportLocation* ImportLocation_new(const char* iri, const char* path);
+int ImportLocation_append(ImportLocation* first, ImportLocation* new);
+void free_ImportLocation(ImportLocation*);

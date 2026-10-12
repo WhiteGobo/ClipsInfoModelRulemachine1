@@ -1,0 +1,3 @@
+#pragma once
+
+#define _RIFBUILTIN_ "http://www.w3.org/2007/rif-builtin-function#"

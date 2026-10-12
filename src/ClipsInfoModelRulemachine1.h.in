@@ -1,0 +1,7 @@
+#pragma once
+#include <clips.h>
+
+int InfoModelRulemachine1Data_register(Environment *env);
+int InfoModelRulemachine1Data_add_local_import_location(Environment *env, const char* iri, const char* path);
+char* InfoModelRulemachine1Data_export_rif_data(Environment *env, const char* format);
+char* InfoModelRulemachine1Data_export_rdf_data(Environment *env, const char* format);

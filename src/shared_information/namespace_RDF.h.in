@@ -1,0 +1,11 @@
+#pragma once
+
+#define _RDF_ "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+
+#define _RDF_langString_ _RDF_ "langString"
+#define _RDF_PlainLiteral_ _RDF_ "PlainLiteral"
+#define _RDF_XMLLiteral_ _RDF_ "XMLLiteral"
+#define _RDF_type_ _RDF_ "type"
+#define _RDF_first_ _RDF_ "first"
+#define _RDF_rest_ _RDF_ "rest"
+#define _RDF_nil_ _RDF_ "nil"

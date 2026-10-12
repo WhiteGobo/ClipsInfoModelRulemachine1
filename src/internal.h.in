@@ -1,0 +1,11 @@
+#pragma once
+#include <clips.h>
+
+#ifndef INFO_MODEL_RULEMACHINE1_INDEX
+#define INFO_MODEL_RULEMACHINE1_INDEX USER_ENVIRONMENT_DATA + @INFO_MODEL_RULEMACHINE1_OFFSET@
+#endif
+
+
+
+#define LoadingInfoModelRulemachine1Data(theEnv) \
+	((InfoModelRulemachine1Data *) GetEnvironmentData(theEnv, INFO_MODEL_RULEMACHINE1_INDEX))

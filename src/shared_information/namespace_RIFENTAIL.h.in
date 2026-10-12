@@ -1,0 +1,11 @@
+#pragma once
+
+#define _RIFENTAIL_ "http://www.w3.org/ns/entailment/"
+
+#define _RIFENTAIL_SIMPLE_ _RIFENTAIL_ "Simple"
+#define _RIFENTAIL_RDF_ _RIFENTAIL_ "RDF"
+#define _RIFENTAIL_RDFS_ _RIFENTAIL_ "RDFS"
+#define _RIFENTAIL_D_ _RIFENTAIL_ "D"
+#define _RIFENTAIL_OWLRDFBASED_ _RIFENTAIL_ "OWL-RDF-Based"
+#define _RIFENTAIL_RIF_ _RIFENTAIL_ "RIF"
+#define _RIFENTAIL_OWLDIRECT_ _RIFENTAIL_ "OWL-Direct"

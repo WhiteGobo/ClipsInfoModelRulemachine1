@@ -1,0 +1,14 @@
+#pragma once
+
+
+#define _CIMR1_ "http://white.gobo/ClipsInfoModelRulemachine1#"
+#define _CIMR1_equal_ _CIMR1_ "equal"
+#define _CIMR1_success_ _CIMR1_ "success"
+#define _CIMR1_percent_encode_ _CIMR1_ "percent-encode"
+#define _CIMR1_new_blanknode_ _CIMR1_ "new-blanknode"
+#define _CIMR1_generate_local_node_ _CIMR1_ "generate-local-node"
+#define _CIMR1_iri_to_clipsconstant_ _CIMR1_ "iri-to-clipsconstant"
+#define _CIMR1_literal_to_clipsconstant_ _CIMR1_ "literal-to-clipsconstant"
+#define _CIMR1_local_to_clipsconstant_ _CIMR1_ "local-to-clipsconstant"
+#define _CIMR1_import_ _CIMR1_ "import"
+#define _CIMR1_set_graph_in_errorstate_ _CIMR1_ "set-graph-in-errorstate"

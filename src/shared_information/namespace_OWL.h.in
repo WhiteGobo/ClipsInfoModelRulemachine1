@@ -1,0 +1,5 @@
+#pragma once
+
+#define _OWL_ "http://www.w3.org/2002/07/owl#"
+
+#define _OWL_Ontology_ _OWL_ "Ontology"

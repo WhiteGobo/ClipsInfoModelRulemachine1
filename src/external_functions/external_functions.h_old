@@ -1,0 +1,13 @@
+/** \file external_functions.h
+ * \brief defines how builtin functions are loaded
+ */
+#pragma once
+
+#include <clips.h>
+
+/**
+ * Add internal functions to clips environment.
+ *
+ * If unsuccesful this is an internal error.
+ */
+bool add_literal_user_functions(Environment* env);
