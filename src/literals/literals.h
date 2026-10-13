@@ -6,6 +6,7 @@ typedef struct s_Literal Literal;
 
 
 
+/* TODO rename to Literal_new_typedliteral */
 Literal* Literal_new(const char* value, const char* datatype);
 Literal* Literal_new_langliteral(const char* value, const char* lang);
 Literal* Literal_from_CLIPSValue(CLIPSValue);
@@ -22,3 +23,5 @@ bool Literal_check_datatype(const Literal*, const char* datatype);
 void free_Literal(Literal*);
 const char* Literal_get_value(Literal*);
 const char* Literal_get_lang(Literal*);
+
+void fprintf_Literal(FILE*, Literal*);

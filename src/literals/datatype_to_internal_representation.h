@@ -11,3 +11,5 @@ typedef CLIPSValue Func_CLIPSValueFromLiteralValue(Environment*, const char* val
 Func_CLIPSValueFromLiteralValue* get_literal_generator_from_datatype(Environment*, const char*);
 
 CLIPSValue CLIPSValue_from_any(Environment*, const char* value, const char* datatype);
+CLIPSValue CLIPSValue_from_langliteral(Environment* env, const char* value, const char* lang);
+CLIPSValue CLIPSValue_from_iri(Environment* env, const char* value);

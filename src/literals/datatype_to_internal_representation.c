@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include "datatype_to_internal_representation.h"
 #include "namespace_XS.h"
-#include "terms.h"
+#include "namespace_RDF.h"
 #include "ClipsInfoModelRulemachine1_number.h"
 #include "ClipsInfoModelRulemachine1_time.h"
+#include "ClipsInfoModelRulemachine1_string.h"
 #include <AdvancedCDatatypesTime.h>
 
 
@@ -19,6 +20,7 @@ static CLIPSValue CLIPSValue_from_duration(Environment*, const char* value, cons
 static CLIPSValue CLIPSValue_from_hexBinary(Environment*, const char* value, const char* datatype);
 //static CLIPSValue CLIPSValue_from_QName(Environment*, const char* value, const char* datatype);
 static CLIPSValue CLIPSValue_from_time(Environment*, const char* value, const char* datatype);
+static CLIPSValue CLIPSValue_from_typed_langliteral(Environment*, const char* value, const char*);
 
 
 Func_CLIPSValueFromLiteralValue* get_literal_generator_from_datatype(Environment*, const char* datatype)
@@ -27,6 +29,9 @@ Func_CLIPSValueFromLiteralValue* get_literal_generator_from_datatype(Environment
 	const char* suffix;
 	size_t slen;
 	size_t dlen = strlen(datatype);
+	if (0 == strcmp(_RDF_PlainLiteral_, datatype)){
+		return CLIPSValue_from_typed_langliteral;
+	}
 	if (dlen <= sizeof(_XS_)){
 		return CLIPSValue_from_any;
 	} else if (0 != memcmp(datatype, _XS_, sizeof(_XS_)-1)){
@@ -110,9 +115,6 @@ Func_CLIPSValueFromLiteralValue* get_literal_generator_from_datatype(Environment
 	return CLIPSValue_from_any;
 }
 
-CLIPSValue CLIPSValue_from_any(Environment* env, const char* value, const char* datatype){
-	return generate_clipsvalue_from_typedliteral(env, value, datatype);
-}
 
 static CLIPSValue CLIPSValue_from_decimal(Environment* env, const char* value, const char* datatype)
 {
@@ -124,7 +126,7 @@ static CLIPSValue CLIPSValue_from_decimal(Environment* env, const char* value, c
 
 static CLIPSValue CLIPSValue_from_string(Environment* env, const char* value, const char* datatype)
 {
-	return generate_clipsvalue_from_typedliteral(env, value, NULL);
+	return CLIPSValue_from_any(env, value, NULL);
 }
 
 static CLIPSValue CLIPSValue_from_anyURI(Environment* env, const char* value, const char* datatype)
@@ -183,4 +185,62 @@ static CLIPSValue CLIPSValue_from_hexBinary(Environment* env, const char* value,
 static CLIPSValue CLIPSValue_from_time(Environment* env, const char* value, const char* datatype)
 {
 	return CLIPSValue_from_serialized_Time(env, value);
+}
+
+static CLIPSValue CLIPSValue_from_typed_langliteral(Environment* env, const char* value, const char*){
+	return CLIPSValue_from_langliteral(env, value, NULL);
+}
+
+CLIPSValue CLIPSValue_from_langliteral(Environment* env, const char* value, const char* lang){
+	//return generate_clipsvalue_from_langliteral(env, value, lang);
+	char *value_enc,  *content;
+	CLIPSValue ret;
+	value_enc = CIMR1_string_encode_for_uri(value, strlen(value));
+	if (lang != NULL){
+		content = malloc(strlen(value_enc) + strlen(lang) + 3);
+		sprintf(content, "%s@@%s", value_enc, lang);
+	} else {
+		content = malloc(strlen(value_enc) + 3);
+		sprintf(content, "%s@@", value_enc);
+	}
+	free(value_enc);
+	ret.lexemeValue = CreateString(env, content);
+	free(content);
+	return ret;
+}
+
+CLIPSValue CLIPSValue_from_any(Environment* env, const char* value, const char* datatype){
+	char *value_enc,  *content;
+	CLIPSValue ret;
+	value_enc = CIMR1_string_encode_for_uri(value, strlen(value));
+	if (
+			datatype != NULL
+			//|| ISURI(datatype, datatype_length, _RDF_string_)
+			//|| ISURI(datatype, datatype_length, _XS_string_)
+			)
+	{
+		content = malloc(strlen(value_enc) + strlen(datatype) + 3);
+		sprintf(content, "%s^^%s", value_enc, datatype);
+	} else {
+		content = malloc(strlen(value_enc) + 1);
+		sprintf(content, "%s", value_enc);
+	}
+	free(value_enc);
+	ret.lexemeValue = CreateString(env, content);
+	free(content);
+	return ret;
+}
+
+CLIPSValue CLIPSValue_from_iri(Environment* env, const char* iri){
+	const size_t l = strlen(iri);
+	char* symb;
+	CLIPSValue ret;
+	symb = malloc(l + 3);
+	symb[0]='<';
+	memcpy(symb+1, iri, l);
+	symb[l+1]='>';
+	symb[l+2]='\0';
+	ret.lexemeValue = CreateSymbol(env, symb);
+	free(symb);
+	return ret;
 }

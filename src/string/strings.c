@@ -8,8 +8,6 @@
 
 static int normalize_index(int index, int length);
 static int CIMR1_string_position(const char* source, const char* query);
-extern char* my_percent_decode(const char *src, const size_t len);
-extern char* percent_encode_type1(const char *src, const size_t len);
 
 char* CIMR1_string_string_cut(const char* string, int start){
 	int ret_length;

@@ -15,6 +15,7 @@ static UDFDescription builtinFunctionList[];
 extern const UDFDescription builtinFunctionList_IsLiteral[];
 extern const UDFDescription builtinFunctionList_List[];
 extern const UDFDescription builtinFunctionList_Math[];
+extern const UDFDescription builtinFunctionList_ImportExport[];
 extern const UDFDescription builtinFunctionList_Literal[];
 extern const UDFDescription builtinFunctionList_String[];
 extern const UDFDescription builtinFunctionList_Boolean[];
@@ -39,6 +40,9 @@ bool add_literal_user_functions(Environment* env){
 		return false;
 	}
 	if (!add_literal_user_functions_list(env,builtinFunctionList_String)){
+		return false;
+	}
+	if (!add_literal_user_functions_list(env,builtinFunctionList_ImportExport)){
 		return false;
 	}
 	if (!add_literal_user_functions_list(env,builtinFunctionList_Boolean)){
@@ -74,8 +78,6 @@ static bool add_literal_user_functions_list(Environment* env, const UDFDescripti
 
 
 static UDFDescription builtinFunctionList[] = {
-	{"<"_CIMR1_import_">", "*", 1, 2, "*",
-		CIMR1_import_rdf, "CIMR1_import_rdf"},
 	{"<"_PRED_literal_not_identical_">", "*", 2, 2, NULL,
 		pred_literal_not_identical, "pred_literal_not_identical"},
 	//{"<"_CRIFI_equal_">", "*", 2, 2, "*",

@@ -1,3 +1,9 @@
+/**
+ * Testing using a clips program as premise and check end state via RIF export.
+ *
+ * See --baseiri and --basepath how to handle import locations per iri.
+ *
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>

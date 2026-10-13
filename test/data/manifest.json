@@ -35,7 +35,7 @@
 		"name": "data05",
             "purpose": "test frame",
 		"premise": "data05-premise.clp",
-		"query": "data05-conclusion.ttl"
+		"query": "data05-conclusion.rifps"
 	}, {
             	"@type": "NegativeEntailment",
 		"name": "data06",
@@ -201,5 +201,23 @@
 		"purpose": "test builtin functions for boolean",
 		"premise": "data57-premise.clp",
 		"query": "data-ok-conclusion.rifps"
+	}, {
+		"name": "data60",
+		"@type": "PositiveEntailment",
+		"purpose": "test assert",
+		"premise": "data60-premise.clp",
+		"query": "data-ok-conclusion.rifps"
+	}, {
+		"name": "data65",
+		"@type": "PositiveEntailment",
+		"purpose": "test atom deffact",
+		"premise": "data65-premise.clp",
+		"query": "data-ok-conclusion.rifps"
+	}, {
+		"name": "data66",
+		"@type": "PositiveEntailment",
+		"purpose": "test frame deffact",
+		"premise": "data66-premise.clp",
+		"query": "data66-conclusion.rifps"
 	}]
 }

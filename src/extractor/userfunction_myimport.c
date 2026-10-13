@@ -7,7 +7,6 @@
 #include "data.h"
 
 static char* load_into_memory(const char* filepath);
-static int relative_import(Environment* env, const ImportLocation* import_locations, const char* filepath, const char* entailment);
 static int load_RIFIData_into_Environment(RIFIData* data, Environment *env);
 static RIFIData* RIFIData_load(const char* filepath, const char* entailment);
 
@@ -69,7 +68,7 @@ void CIMR1_import_rdf(Environment *env, UDFContext *udfc, UDFValue *out){
 		case RIF_TypedLiteral:
 		case RIF_LangLiteral:
 			cntxt = LoadingInfoModelRulemachine1Data(env);
-			err = relative_import(env, cntxt->import_locations,
+			err = relative_import(env,
 					location->value,
 					entailment);
 			break;
@@ -85,8 +84,14 @@ void CIMR1_import_rdf(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 }
 
-static int relative_import(Environment* env, const ImportLocation* import_locations, const char* filepath, const char* entailment)
+int relative_import(Environment* env, const char* filepath, const char* entailment)
 {
+	fprintf(stderr, "relative import called with %s %s\n", filepath, entailment);
+	InfoModelRulemachine1Data* cntxt = LoadingInfoModelRulemachine1Data(env);
+	if(cntxt == NULL){
+		return 1;
+	}
+	ImportLocation* import_locations = cntxt->import_locations;
 	int err;
 	DRDFDataloader* dataloader = DRDFDataloader_new();
 	if (dataloader == NULL){

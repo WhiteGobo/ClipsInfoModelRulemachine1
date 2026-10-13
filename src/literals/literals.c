@@ -1,36 +1,19 @@
 #include "literals.h"
-#include "terms.h"
+#include "lexeme.h"
 #include "datatype_to_internal_representation.h"
+#include "struct_literal.h"
 
-
-typedef struct s_Literal {
-	TERMTYPE type;
-	char* value;
-	char* suffix;
-} Literal;
 
 Literal* Literal_from_CLIPSValue(CLIPSValue cv){
-	Literal* ret;
-	struct ret_ExtractAnyTerm any_term = CLIPSValue_extract_any_term(&cv);
-	if (!EXTRACT_ANY_TERM_SUCCESS(any_term)){
-		return NULL;
-	}
-	switch (any_term.type){
-		case TYPEDLITERAL:
-		case LANGLITERAL:
-			break;
+	switch(cv.header->type){
+		case STRING_TYPE:
+			return Literal_from_CLIPSString(NULL, cv.lexemeValue);
+		case SYMBOL_TYPE:
+			return Literal_from_CLIPSSymbol(NULL, cv.lexemeValue);
 		default:
+			fprintf(stderr, "ERROR Literal_from_CLIPSValue not fully implemented\n");
 			return NULL;
 	}
-	ret = malloc(sizeof(Literal));
-	if (ret == NULL){
-		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
-		return NULL;
-	}
-	ret->type = any_term.type;
-	ret->value = any_term.value;
-	ret->suffix = any_term.suffix;
-	return ret;
 }
 
 CLIPSValue Literal_to_CLIPSValue_plain(Environment* env, const Literal* x){
@@ -42,10 +25,9 @@ CLIPSValue Literal_to_CLIPSValue_plain(Environment* env, const Literal* x){
 
 	switch(x->type){
 		case URI:
-			return generate_clipssymbol_from_iri(env, x->value);
+			return CLIPSValue_from_iri(env, x->value);
 		case LANGLITERAL:
-			return generate_clipsvalue_from_langliteral(
-						env, x->value, x->suffix);
+			return CLIPSValue_from_langliteral(env, x->value, x->suffix);
 		case TYPEDLITERAL:
 			gen = CLIPSValue_from_any;
 			return gen(env, x->value, x->suffix);
@@ -66,10 +48,9 @@ CLIPSValue Literal_to_CLIPSValue(Environment* env, const Literal* x){
 
 	switch(x->type){
 		case URI:
-			return generate_clipssymbol_from_iri(env, x->value);
+			return CLIPSValue_from_iri(env, x->value);
 		case LANGLITERAL:
-			return generate_clipsvalue_from_langliteral(
-						env, x->value, x->suffix);
+			return CLIPSValue_from_langliteral(env, x->value, x->suffix);
 		case TYPEDLITERAL:
 			gen =get_literal_generator_from_datatype(env, x->suffix);
 			return gen(env, x->value, x->suffix);
@@ -169,4 +150,25 @@ const char* Literal_get_lang(Literal* x){
 	} else {
 		return NULL;
 	} 
+}
+
+void fprintf_Literal(FILE* f, Literal* x){
+	if (x == NULL){
+		fprintf(f, "(NULL)");
+		return;
+	}
+	switch(x->type){
+		case URI:
+			fprintf(f, "<%s>", x->value);
+			break;
+		case LANGLITERAL:
+			fprintf(f, "\"%s\"@%s", x->value, x->suffix);
+			break;
+		case TYPEDLITERAL:
+			fprintf(f, "\"%s\"^^%s", x->value, x->suffix);
+			break;
+		case BNODE:
+			fprintf(f, "_:%s", x->value);
+			break;
+	}
 }

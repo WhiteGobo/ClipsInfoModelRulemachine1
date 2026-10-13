@@ -198,7 +198,7 @@ char* CIMR1_string_escape_html_uri(const char* src, const size_t len){
 
 static char hex_to_charvalue(char);
 
-char* my_percent_decode(const char *src, const size_t len){
+char* CIMR1_percent_decode(const char *src, const size_t len){
 	char v1, v2;
 	char* dst = malloc(len+1);
 	size_t offset = 0;
