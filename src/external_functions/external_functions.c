@@ -54,7 +54,6 @@ static bool add_literal_user_functions_list(Environment* env, const UDFDescripti
 {
 	void* cntxt = NULL;
 	for (UDFDescription *x = descriptions; x->clipsName != NULL; x++){
-		fprintf(stderr, "register function : %s\n", x->clipsName);
 		AddUDFError err = AddUDF(env, x->clipsName, x->returnTypes,
 				x->minArgs, x->maxArgs, x->argTypes, x->cfp,
 				x->cName, cntxt);
