@@ -107,7 +107,7 @@ static Literal* Literal_new_bnode(Environment* env, CLIPSLexeme* x){
 Literal* Literal_from_int(Environment*, int64_t x){
 	char tmp[100];
 	sprintf(tmp, "%d", x);
-	return Literal_new(tmp, _XS_decimal_);
+	return Literal_new(tmp, _XS_integer_);
 }
 
 Literal* Literal_from_float(Environment*, double x){
