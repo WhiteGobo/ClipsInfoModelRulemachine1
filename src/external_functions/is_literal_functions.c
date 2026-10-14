@@ -46,7 +46,7 @@ static void is_hexBinary(Environment *env, UDFContext *udfc, UDFValue *out)
 		return;
 	} else {
 		tmpclips.header = tmpudf.header;
-		x1 = Literal_from_CLIPSValue(tmpclips);
+		x1 = Literal_from_CLIPSValue(env, tmpclips);
 	}
 
 	err = regexec(&reg, Literal_get_value(x1), 0, NULL, 0);
@@ -87,7 +87,7 @@ static void is_base64Binary(Environment *env, UDFContext *udfc, UDFValue *out)
 		return;
 	} else {
 		tmpclips.header = tmpudf.header;
-		x1 = Literal_from_CLIPSValue(tmpclips);
+		x1 = Literal_from_CLIPSValue(env, tmpclips);
 	}
 
 	err = regexec(&reg, Literal_get_value(x1), 0, NULL, 0);

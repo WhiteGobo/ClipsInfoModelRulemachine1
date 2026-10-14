@@ -18,7 +18,7 @@ void pred_literal_not_identical(Environment *env, UDFContext *udfc, UDFValue *ou
 		return;
 	} else {
 		tmpclips.header = tmpudf.header;
-		x1 = Literal_from_CLIPSValue(tmpclips);
+		x1 = Literal_from_CLIPSValue(env, tmpclips);
 	}
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
 		fprintf(stderr, "brubru err2\n");
@@ -26,7 +26,7 @@ void pred_literal_not_identical(Environment *env, UDFContext *udfc, UDFValue *ou
 		return;
 	} else {
 		tmpclips.header = tmpudf.header;
-		x2 = Literal_from_CLIPSValue(tmpclips);
+		x2 = Literal_from_CLIPSValue(env, tmpclips);
 	}
 	ret = !Literal_equal(x1, x2);
 	free_Literal(x1);

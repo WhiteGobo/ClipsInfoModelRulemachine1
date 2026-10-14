@@ -71,8 +71,8 @@ static void add(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	z = Number_add(x, y);
 	ret = CLIPSValue_from_Number(env, z);
 	switch(ret.header->type){
@@ -105,8 +105,8 @@ static void subtract(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	z = Number_sub(x, y);
 	ret = CLIPSValue_from_Number(env, z);
 	out->value = ret.value;
@@ -131,8 +131,8 @@ static void multiply(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	z = Number_mult(x, y);
 	ret = CLIPSValue_from_Number(env, z);
 	out->value = ret.value;
@@ -157,8 +157,8 @@ static void divide(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	z = Number_div(x, y);
 	ret = CLIPSValue_from_Number(env, z);
 	out->value = ret.value;
@@ -184,8 +184,8 @@ static void integer_divide(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_idiv(x, y);
 	out->integerValue = CreateInteger(env, ret);
 }
@@ -209,8 +209,8 @@ static void mod(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	z = Number_mod(x, y);
 	ret = CLIPSValue_from_Number(env, z);
 	out->value = ret.value;
@@ -236,8 +236,8 @@ static void equal(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 	
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_equal(x, y);
 	out->lexemeValue = CreateBoolean(env, ret);
 }
@@ -262,8 +262,8 @@ static void not_equal(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_not_equal(x, y);
 	out->lexemeValue = CreateBoolean(env, ret);
 }
@@ -288,8 +288,8 @@ static void less_than(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_less(x, y);
 	out->lexemeValue = CreateBoolean(env, ret);
 }
@@ -315,8 +315,8 @@ static void less_than_or_equal(Environment *env, UDFContext *udfc, UDFValue *out
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_less_or_equal(x, y);
 	out->lexemeValue = CreateBoolean(env, ret);
 }
@@ -341,8 +341,8 @@ static void greater_than(Environment *env, UDFContext *udfc, UDFValue *out){
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_greater(x, y);
 	out->lexemeValue = CreateBoolean(env, ret);
 }
@@ -368,8 +368,8 @@ static void greater_than_or_equal(Environment *env, UDFContext *udfc, UDFValue *
 	}
 	cv2.value = tmpudf.value;
 
-	x = CLIPSValue_to_Number(cv1);
-	y = CLIPSValue_to_Number(cv2);
+	x = CLIPSValue_to_Number(env, cv1);
+	y = CLIPSValue_to_Number(env, cv2);
 	ret = Number_greater_or_equal(x, y);
 	out->lexemeValue = CreateBoolean(env, ret);
 }

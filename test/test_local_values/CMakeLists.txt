@@ -10,7 +10,17 @@ target_link_libraries(ClipsInfoModelRulemachine1_test_local_values
 set(basepath "${CMAKE_CURRENT_SOURCE_DIR}")
 set(baseiri "http://example.com/")
 set(premise "premise.clp")
-set(testname "ClipsInfoModelRulemachine1::test_local_values")
+set(testname "ClipsInfoModelRulemachine1::test_local_values::indirect")
+add_test(NAME "${testname}"
+	COMMAND ClipsInfoModelRulemachine1_test_local_values
+	"--premise" "${basepath}/${premise}"
+	"--basepath" "${basepath}"
+	"--baseiri" "${baseiri}"
+)
+set_property(TEST "${testname}" PROPERTY LABELS "ClipsInfoModelRulemachine1")
+
+set(premise "premise_direct.clp")
+set(testname "ClipsInfoModelRulemachine1::test_local_values::direct")
 add_test(NAME "${testname}"
 	COMMAND ClipsInfoModelRulemachine1_test_local_values
 	"--premise" "${basepath}/${premise}"

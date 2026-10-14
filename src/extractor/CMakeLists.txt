@@ -19,6 +19,9 @@ target_link_libraries(ClipsInfoModelRulemachine1_extractor PRIVATE
 	ClipsInfoModelRulemachine1_shared_information
 	ClipsInfoModelRulemachine1_data
 	ClipsInfoModelRulemachine1_terms
+	ClipsInfoModelRulemachine1_literals
+	ClipsInfoModelRulemachine1_list
+	ClipsInfoModelRulemachine1_localnode
 	cwalk
 	DataloaderRDF
 )

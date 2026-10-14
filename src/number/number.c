@@ -27,7 +27,7 @@ struct ret_CLIPSValue_to_int CLIPSValue_round_to_int(Environment* env, CLIPSValu
 }
 
 
-Number CLIPSValue_to_Number(CLIPSValue cv){
+Number CLIPSValue_to_Number(Environment* env, CLIPSValue cv){
 	Literal *literal;
 	Decimal as_decimal;
 	switch(cv.header->type){
@@ -36,7 +36,7 @@ Number CLIPSValue_to_Number(CLIPSValue cv){
 		case FLOAT_TYPE:
 			return Number_from_float(cv.floatValue->contents);
 	}
-	literal = Literal_from_CLIPSValue(cv);
+	literal = Literal_from_CLIPSValue(env, cv);
 	if (literal == NULL){
 		return NUMBER_NAN;
 	}

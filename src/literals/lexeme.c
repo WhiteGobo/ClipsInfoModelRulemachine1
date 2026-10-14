@@ -3,8 +3,10 @@
 #include "ClipsInfoModelRulemachine1_string.h"
 
 #include "struct_literal.h"
+#include "namespace_XS.h"
 
 static Literal* Literal_new_uri(const char* x, size_t l);
+static Literal* Literal_new_bnode(Environment*, CLIPSLexeme*);
 static Literal* Literal_new_typedliteral(char* value, const char* type);
 
 Literal* Literal_from_CLIPSString(Environment* env, CLIPSLexeme* x){
@@ -54,10 +56,17 @@ Literal* Literal_from_CLIPSSymbol(Environment* env, CLIPSLexeme* x){
 	Literal* ret;
 
 	len = strlen(x->contents);
-	if(x->contents[0] != '<' || x->contents[len] != '>'){
+	if(len < 2){
 		return NULL;
 	}
-	return Literal_new_uri(x->contents + 1, len-2);
+	if(x->contents[0] == '<' && x->contents[len-1] == '>'){
+		return Literal_new_uri(x->contents + 1, len-2);
+	}
+	if(x->contents[0] == '_' && x->contents[1] == ':'){
+		return Literal_new_bnode(env, x);
+	}
+	fprintf(stderr, "ERROR Literal_from_CLIPSSymbol: CV not a Literal\n");
+	return NULL;
 }
 
 
@@ -78,4 +87,31 @@ static Literal* Literal_new_uri(const char* x, size_t l){
 	memcpy(ret->value, x, l);
 	ret->value[l] = '\0';
 	return ret;
+}
+
+static Literal* Literal_new_bnode(Environment* env, CLIPSLexeme* x){
+	Literal* ret;
+	ret = malloc(sizeof(Literal));
+	if (ret == NULL){
+		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
+		return NULL;
+	}
+	ret->type = BNODE;
+	ret->env = env;
+	ret->lexeme = x;
+	RetainLexeme(env, x);
+	return ret;
+}
+
+
+Literal* Literal_from_int(Environment*, int64_t x){
+	char tmp[100];
+	sprintf(tmp, "%d", x);
+	return Literal_new(tmp, _XS_decimal_);
+}
+
+Literal* Literal_from_float(Environment*, double x){
+	char tmp[100];
+	sprintf(tmp, "%f", x);
+	return Literal_new(tmp, _XS_double_);
 }

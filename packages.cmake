@@ -10,13 +10,13 @@ include(FetchContent)
 #)
 #FetchContent_MakeAvailable(CInterfaceOxJsonld)
 
-#FetchContent_Declare(
-#	hashtable
-#	GIT_REPOSITORY https://github.com/WhiteGobo/hashtable
-#        CMAKE_CACHE_ARGS -DBUILD_SHARED_LIBS=OFF
-#        OVERRIDE_FIND_PACKAGE
-#)
-#FetchContent_MakeAvailable(hashtable)
+FetchContent_Declare(
+	hashtable
+	GIT_REPOSITORY https://github.com/WhiteGobo/hashtable
+        CMAKE_CACHE_ARGS -DBUILD_SHARED_LIBS=OFF
+        OVERRIDE_FIND_PACKAGE
+)
+FetchContent_MakeAvailable(hashtable)
 
 
 FetchContent_Declare(

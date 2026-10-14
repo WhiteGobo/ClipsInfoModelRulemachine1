@@ -1,8 +1,10 @@
 #include "extractor.h"
 #include <clips.h>
-#include "terms.h"
 
+#include "ClipsInfoModelRulemachine1_list.h"
+#include "literals.h"
 #include <RIFImporterDebug.h>
+#include <RIFImporterTermGenerator.h>
 #include "shared_information.h"
 
 //static RIFITerm* Literal_from_single_string(const char*);
@@ -36,15 +38,41 @@ static RIFITermType RDFType_to_RIFITermType(TERMTYPE x){
 RIFITerm* RIFITerm_from_CLIPSValue(Environment* env, CLIPSValue* val){
 	RIFITerm* ret;
 	RIFITermList* retlist;
-	
-	struct ret_ExtractAnyTerm any_term = CLIPSValue_extract_any_term(val);
-	if(EXTRACT_ANY_TERM_SUCCESS(any_term)){
-		ret = malloc(sizeof(RIFITerm));
-		ret->type = RDFType_to_RIFITermType(any_term.type);
-		ret->value = any_term.value;
-		ret->suffix = any_term.suffix;
+	const char *x_val, *tmp;
+	CLIPSValue cv = {.value = val->value};
+
+	Literal* lit = Literal_from_CLIPSValue(env, cv);
+	if (lit != NULL){
+		x_val = Literal_get_value(lit);
+		switch(Literal_get_type(lit)){
+			case URI:
+				ret = RIFITerm_new_iri(x_val);
+				break;
+			case TYPEDLITERAL:
+				tmp = Literal_get_datatype(lit);
+				ret = RIFITerm_new_typedliteral(x_val, tmp);
+				break;
+			case LANGLITERAL:
+				tmp = Literal_get_lang(lit);
+				ret = RIFITerm_new_langliteral(x_val, tmp);
+				break;
+			case BNODE:
+				ret = RIFITerm_new_local(x_val);
+				break;
+			default:
+				fprintf(stderr, "ERROR RIFITerm_from_CLIPSValue\n");
+				return NULL;
+		}
+		free_Literal(lit);
 		return ret;
 	}
+	Multifield* aslist = CLIPSValue_get_termlist(env, cv);
+	if(aslist != NULL){
+		retlist = RIFITermList_from_CLIPSMultifield(env, aslist);
+		ret = RIFITerm_new_list(retlist, NULL);
+		return ret;
+	}
+	/*
 	struct ret_ExtractList extracted_list = CLIPSValue_extract_list(env, val);
 	if(EXTRACT_LIST_SUCCESS(extracted_list)){
 		retlist = RIFITermList_from_CLIPSMultifield(env, extracted_list.list);
@@ -54,6 +82,7 @@ RIFITerm* RIFITerm_from_CLIPSValue(Environment* env, CLIPSValue* val){
 		ret->rest = NULL;
 		return ret;
 	}
+	*/
 	return NULL;
 
 	/*

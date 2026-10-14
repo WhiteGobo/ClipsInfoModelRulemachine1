@@ -2,14 +2,20 @@
 #include "lexeme.h"
 #include "datatype_to_internal_representation.h"
 #include "struct_literal.h"
+#include "ClipsInfoModelRulemachine1_number.h"
 
 
-Literal* Literal_from_CLIPSValue(CLIPSValue cv){
+Literal* Literal_from_CLIPSValue(Environment* env, CLIPSValue cv){
+	Number number;
 	switch(cv.header->type){
 		case STRING_TYPE:
-			return Literal_from_CLIPSString(NULL, cv.lexemeValue);
+			return Literal_from_CLIPSString(env, cv.lexemeValue);
 		case SYMBOL_TYPE:
-			return Literal_from_CLIPSSymbol(NULL, cv.lexemeValue);
+			return Literal_from_CLIPSSymbol(env, cv.lexemeValue);
+		case INTEGER_TYPE:
+			return Literal_from_int(env, cv.integerValue->contents);
+		case FLOAT_TYPE:
+			return Literal_from_float(env, cv.floatValue->contents);
 		default:
 			fprintf(stderr, "ERROR Literal_from_CLIPSValue not fully implemented\n");
 			return NULL;
@@ -17,6 +23,7 @@ Literal* Literal_from_CLIPSValue(CLIPSValue cv){
 }
 
 CLIPSValue Literal_to_CLIPSValue_plain(Environment* env, const Literal* x){
+	CLIPSValue ret;
 	CLIPSValue void_value = {.voidValue = VoidConstant(env)};
 	Func_CLIPSValueFromLiteralValue* gen;
 	if(x == NULL){
@@ -32,14 +39,20 @@ CLIPSValue Literal_to_CLIPSValue_plain(Environment* env, const Literal* x){
 			gen = CLIPSValue_from_any;
 			return gen(env, x->value, x->suffix);
 		case BNODE:
-			fprintf(stderr, "BNode not implemented:");
-			break;
+			if (x->env != env){
+				fprintf_Literal(stderr, x);
+				fprintf(stderr, "ERROR Literal_to_CLIPSValue\n");
+				return void_value;
+			}
+			ret.lexemeValue = x->lexeme;
+			return ret;
 	}
 	fprintf(stderr, "Literal_to_CLIPSValue not implemented\n");
 	return void_value;
 }
 
 CLIPSValue Literal_to_CLIPSValue(Environment* env, const Literal* x){
+	CLIPSValue ret;
 	CLIPSValue void_value = {.voidValue = VoidConstant(env)};
 	Func_CLIPSValueFromLiteralValue* gen;
 	if(x == NULL){
@@ -55,8 +68,13 @@ CLIPSValue Literal_to_CLIPSValue(Environment* env, const Literal* x){
 			gen =get_literal_generator_from_datatype(env, x->suffix);
 			return gen(env, x->value, x->suffix);
 		case BNODE:
-			fprintf(stderr, "BNode not implemented:");
-			break;
+			if (x->env != env){
+				fprintf_Literal(stderr, x);
+				fprintf(stderr, "ERROR Literal_to_CLIPSValue\n");
+				return void_value;
+			}
+			ret.lexemeValue = x->lexeme;
+			return ret;
 	}
 	fprintf(stderr, "Literal_to_CLIPSValue not implemented\n");
 	return void_value;
@@ -118,6 +136,8 @@ Literal* Literal_new(const char* value, const char* datatype){
 }
 
 
+
+
 Literal* Literal_cast(const Literal* orig, const char* datatype){
 	if (orig == NULL) return NULL;
 	return Literal_new(orig->value, datatype);
@@ -133,14 +153,39 @@ bool Literal_check_datatype(const Literal* x, const char* datatype){
 
 void free_Literal(Literal* x){
 	if(x == NULL) return;
-	free(x->value);
-	free(x->suffix);
+	switch(x->type){
+		case URI:
+		case TYPEDLITERAL:
+		case LANGLITERAL:
+			free(x->value);
+			free(x->suffix);
+			break;
+		case BNODE:
+			ReleaseLexeme(x->env, x->lexeme);
+			break;
+	}
 	free(x);
 }
 
 const char* Literal_get_value(Literal* x){
 	if (x == NULL) return NULL;
-	return x->value;
+	switch(x->type){
+		case URI:
+		case TYPEDLITERAL:
+		case LANGLITERAL:
+			return x->value;
+		case BNODE:
+			return x->lexeme->contents + 2;
+	}
+}
+
+const char* Literal_get_datatype(Literal* x){
+	if (x == NULL) return NULL;
+	if (x->type == TYPEDLITERAL){
+		return x->suffix;
+	} else {
+		return NULL;
+	} 
 }
 
 const char* Literal_get_lang(Literal* x){
@@ -150,6 +195,11 @@ const char* Literal_get_lang(Literal* x){
 	} else {
 		return NULL;
 	} 
+}
+
+TERMTYPE Literal_get_type(Literal* x){
+	if (x == NULL) return URI;
+	return x->type;
 }
 
 void fprintf_Literal(FILE* f, Literal* x){
@@ -168,7 +218,7 @@ void fprintf_Literal(FILE* f, Literal* x){
 			fprintf(f, "\"%s\"^^%s", x->value, x->suffix);
 			break;
 		case BNODE:
-			fprintf(f, "_:%s", x->value);
+			fprintf(f, "%s", x->lexeme->contents);
 			break;
 	}
 }

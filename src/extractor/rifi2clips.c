@@ -1,22 +1,26 @@
 #include "extractor.h"
 #include "shared_information.h"
-
 #include "terms.h"
+#include "ClipsInfoModelRulemachine1_localnode.h"
+
 
 typedef struct imr1_import_context {
 	LocalTermMap* map;
+	CLIPSValueMap* cvmap;
 } IMR1ImportContext;
 
 IMR1ImportContext* IMR1ImportContext_new(Environment* env){
 	IMR1ImportContext* ret = malloc(sizeof(IMR1ImportContext));
 	if (ret == NULL) return NULL;
 	ret->map = LocalTermMap_new(env);
+	ret->cvmap = CLIPSValueMap_new(env);
 	return ret;
 }
 
 void free_IMR1ImportContext(IMR1ImportContext* x){
 	if (x == NULL) return;
 	free_LocalTermMap(x->map);
+	free_CLIPSValueMap(x->cvmap);
 	free(x);
 }
 
@@ -49,6 +53,7 @@ CLIPSValue CLIPSValue_from_RIFITerm(Environment* env, IMR1ImportContext* cntxt, 
 			}
 			return generate_clipsvalue_from_termlist(env, cntxt->map, tmpitems, tmprest);
 		case RIF_Local:
+			//return CLIPSValueMap_get_localnode(cntxt->cvmap, term->value);
 			return generate_clipssymbol_from_local(env, cntxt->map, term->value);
 		case RIF_Variable:
 			fprintf(stderr, "Cant translate RIFITerm Variable "

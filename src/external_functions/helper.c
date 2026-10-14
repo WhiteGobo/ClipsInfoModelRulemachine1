@@ -9,7 +9,8 @@ Literal* UDF_get_nth_as_literal(UDFContext *udfc, unsigned n){
 		return NULL;
 	}
 	tmpcv.header = tmpudf.header;
-	return Literal_from_CLIPSValue(tmpcv);
+	//TODO use environment
+	return Literal_from_CLIPSValue(NULL, tmpcv);
 }
 
 
@@ -22,7 +23,7 @@ Number UDF_get_nth_as_Number(Environment* env, UDFContext *udfc, unsigned n){
 		return NUMBER_NAN;
 	}
 	tmpcv.header = tmpudf.header;
-	ret = CLIPSValue_to_Number(tmpcv);
+	ret = CLIPSValue_to_Number(env, tmpcv);
 	return ret;
 }
 
