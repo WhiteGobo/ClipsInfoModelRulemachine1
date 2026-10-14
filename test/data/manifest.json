@@ -208,6 +208,30 @@
 		"premise": "data60-premise.clp",
 		"query": "data-ok-conclusion.rifps"
 	}, {
+		"name": "data61",
+		"@type": "PositiveEntailment",
+		"purpose": "test frame assert",
+		"premise": "data61-premise.clp",
+		"query": "data61-conclusion.rifps"
+	}, {
+		"name": "data62",
+		"@type": "PositiveEntailment",
+		"purpose": "test member assert",
+		"premise": "data62-premise.clp",
+		"query": "data62-conclusion.rifps"
+	}, {
+		"name": "data63",
+		"@type": "PositiveEntailment",
+		"purpose": "test subclass assert",
+		"premise": "data63-premise.clp",
+		"query": "data63-conclusion.rifps"
+	}, {
+		"name": "data64",
+		"@type": "PositiveEntailment",
+		"purpose": "test equal assert",
+		"premise": "data64-premise.clp",
+		"query": "data64-conclusion.rifps"
+	}, {
 		"name": "data65",
 		"@type": "PositiveEntailment",
 		"purpose": "test atom deffact",
@@ -219,5 +243,23 @@
 		"purpose": "test frame deffact",
 		"premise": "data66-premise.clp",
 		"query": "data66-conclusion.rifps"
+	}, {
+		"name": "data67",
+		"@type": "PositiveEntailment",
+		"purpose": "test member deffact",
+		"premise": "data67-premise.clp",
+		"query": "data67-conclusion.rifps"
+	}, {
+		"name": "data68",
+		"@type": "PositiveEntailment",
+		"purpose": "test subclass deffact",
+		"premise": "data68-premise.clp",
+		"query": "data68-conclusion.rifps"
+	}, {
+		"name": "data69",
+		"@type": "PositiveEntailment",
+		"purpose": "test equal deffact",
+		"premise": "data69-premise.clp",
+		"query": "data69-conclusion.rifps"
 	}]
 }
