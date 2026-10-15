@@ -7,7 +7,6 @@
 
 const UDFDescription builtinFunctionList_List[];
 
-static void generate_list(Environment *env, UDFContext *udfc, UDFValue *out);
 static void make_list(Environment *env, UDFContext *udfc, UDFValue *out);
 static void list_contains(Environment *env, UDFContext *udfc, UDFValue *out);
 static void count(Environment *env, UDFContext *udfc, UDFValue *out);

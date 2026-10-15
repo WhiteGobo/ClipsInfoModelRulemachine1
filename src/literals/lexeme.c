@@ -5,7 +5,6 @@
 #include "struct_literal.h"
 #include "namespace_XS.h"
 
-static Literal* Literal_new_uri(const char* x, size_t l);
 static Literal* Literal_new_bnode(Environment*, CLIPSLexeme*);
 static Literal* Literal_new_typedliteral(char* value, const char* type);
 
@@ -60,7 +59,7 @@ Literal* Literal_from_CLIPSSymbol(Environment* env, CLIPSLexeme* x){
 		return NULL;
 	}
 	if(x->contents[0] == '<' && x->contents[len-1] == '>'){
-		return Literal_new_uri(x->contents + 1, len-2);
+		return Literal_new_iri(x->contents + 1, len-2);
 	}
 	if(x->contents[0] == '_' && x->contents[1] == ':'){
 		return Literal_new_bnode(env, x);
@@ -70,7 +69,7 @@ Literal* Literal_from_CLIPSSymbol(Environment* env, CLIPSLexeme* x){
 }
 
 
-static Literal* Literal_new_uri(const char* x, size_t l){
+Literal* Literal_new_iri(const char* x, size_t l){
 	Literal* ret;
 	ret = malloc(sizeof(Literal));
 	if (ret == NULL){
@@ -90,6 +89,8 @@ static Literal* Literal_new_uri(const char* x, size_t l){
 }
 
 static Literal* Literal_new_bnode(Environment* env, CLIPSLexeme* x){
+	//TODO
+	fprintf(stderr, "ERROR TODO Literal_new_bnode\n");
 	Literal* ret;
 	ret = malloc(sizeof(Literal));
 	if (ret == NULL){

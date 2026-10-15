@@ -7,7 +7,6 @@ configure_file(
 
 add_subdirectory(shared_information)
 add_subdirectory(data)
-add_subdirectory(terms)
 add_subdirectory(extractor)
 add_subdirectory(external_functions)
 add_subdirectory(literals)

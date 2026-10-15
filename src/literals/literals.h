@@ -16,6 +16,7 @@ typedef enum {
 
 
 /* TODO rename to Literal_new_typedliteral */
+Literal* Literal_new_iri(const char* x, size_t l);
 Literal* Literal_new(const char* value, const char* datatype);
 Literal* Literal_new_langliteral(const char* value, const char* lang);
 Literal* Literal_new_localnode(Environment*, const char* startvalue);
