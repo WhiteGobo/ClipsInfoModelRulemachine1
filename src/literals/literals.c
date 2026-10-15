@@ -3,6 +3,7 @@
 #include "datatype_to_internal_representation.h"
 #include "struct_literal.h"
 #include "ClipsInfoModelRulemachine1_number.h"
+#include "namespace_XS.h"
 
 
 Literal* Literal_from_CLIPSValue(Environment* env, CLIPSValue cv){
@@ -221,4 +222,17 @@ void fprintf_Literal(FILE* f, Literal* x){
 			fprintf(f, "%s", x->lexeme->contents);
 			break;
 	}
+}
+
+
+Literal* Literal_from_int(Environment*, int64_t x){
+	char tmp[100];
+	sprintf(tmp, "%d", x);
+	return Literal_new(tmp, _XS_integer_);
+}
+
+Literal* Literal_from_float(Environment*, double x){
+	char tmp[100];
+	sprintf(tmp, "%f", x);
+	return Literal_new(tmp, _XS_double_);
 }
