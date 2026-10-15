@@ -43,6 +43,10 @@ int main(int argc, char *argv[]){
 	Run(env, -1);
 	Eval(env, "(println \"print facts:\" (facts))", NULL);
 	conclusion_data = InfoModelRulemachine1Data_export_rif_data(env, exchange_format);
+	if(conclusion_data == NULL){
+		fprintf(stderr, "ERROR InfoModelRulemachine1Data_export_rif_data\n");
+		exit(EXIT_FAILURE);
+	}
 	fprintf(stderr, "Conclusion data:\n%s\n", conclusion_data);
 	DestroyEnvironment(env);
 	err = test_two_distinct_atoms(conclusion_data);
