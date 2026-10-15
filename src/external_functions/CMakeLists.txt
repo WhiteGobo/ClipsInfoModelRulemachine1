@@ -10,6 +10,7 @@ add_library(ClipsInfoModelRulemachine1_external_functions
 	literal_functions.c
 	string_functions.c
 	boolean_functions.c
+	formula_functions.c
 	time_functions.c
 	importexport_functions.c
 	helper.c
@@ -17,6 +18,7 @@ add_library(ClipsInfoModelRulemachine1_external_functions
 )
 
 target_link_libraries(ClipsInfoModelRulemachine1_external_functions PRIVATE
+	ClipsInfoModelRulemachine1_data
 	ClipsInfoModelRulemachine1_shared_information
 	ClipsInfoModelRulemachine1_extractor
 	ClipsInfoModelRulemachine1_literals

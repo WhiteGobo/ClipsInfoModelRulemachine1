@@ -261,5 +261,11 @@
 		"purpose": "test equal deffact",
 		"premise": "data69-premise.clp",
 		"query": "data69-conclusion.rifps"
+	}, {
+		"name": "data80",
+            	"@type": "NegativeEntailment",
+            "purpose": "test equal doesnt duplicate",
+		"premise": "data80-premise.clp",
+		"query": "data-ok-conclusion.rifps"
 	}]
 }

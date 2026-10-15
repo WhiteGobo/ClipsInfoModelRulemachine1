@@ -20,6 +20,7 @@ extern const UDFDescription builtinFunctionList_Literal[];
 extern const UDFDescription builtinFunctionList_String[];
 extern const UDFDescription builtinFunctionList_Boolean[];
 extern const UDFDescription builtinFunctionList_Time[];
+extern const UDFDescription builtinFunctionList_Formula[];
 
 static bool add_literal_user_functions_list(Environment* env, const UDFDescription* descriptions);
 
@@ -49,6 +50,9 @@ bool add_literal_user_functions(Environment* env){
 		return false;
 	}
 	if (!add_literal_user_functions_list(env,builtinFunctionList_Time)){
+		return false;
+	}
+	if (!add_literal_user_functions_list(env,builtinFunctionList_Formula)){
 		return false;
 	}
 	return true;

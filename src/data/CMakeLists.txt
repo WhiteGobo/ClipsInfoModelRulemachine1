@@ -1,6 +1,7 @@
 add_library(ClipsInfoModelRulemachine1_data
 	data.c
 	data.h
+	compare.c
 )
 
 target_include_directories(ClipsInfoModelRulemachine1_data PUBLIC
