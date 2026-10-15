@@ -5,88 +5,21 @@
 #include "shared_information.h"
 #include <DataloaderRDF.h>
 #include "data.h"
+#include <RIFImporterDebug.h>
 
 static char* load_into_memory(const char* filepath);
 static int load_RIFIData_into_Environment(RIFIData* data, Environment *env);
 static RIFIData* RIFIData_load(const char* filepath, const char* entailment);
 
-#define RETURNFAIL(failure) \
-		crifi_udf_error(env, failure, out);\
-		return;
+extern int CIMR1_assert_frame(Environment *env, RIFIFrame* frame, IMR1ImportContext* cntxt);
+extern int CIMR1_assert_atom(Environment *env, RIFIAtom* atom, IMR1ImportContext* cntxt);
+extern int CIMR1_assert_member(Environment *env, RIFIMember* member, IMR1ImportContext* cntxt);
+extern int CIMR1_assert_subclass(Environment *env, RIFISubclass* subclass, IMR1ImportContext* cntxt);
+extern int CIMR1_assert_equal(Environment *env, RIFIEqual* equal, IMR1ImportContext* cntxt);
 
-
-void CIMR1_import_rdf(Environment *env, UDFContext *udfc, UDFValue *out){
-	int err;
-	InfoModelRulemachine1Data* cntxt;
-	bool truth;
-	const char* entailment = NULL;
-	RIFITerm* location, *entailment_term;
-	UDFValue udfinput;
-	CLIPSValue clipsinput;
-	out->voidValue = VoidConstant(env);
-	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &udfinput)){
-		//RETURNFAIL("Argerror for pred:is-literal-boolean");
-		return;
-	}
-	clipsinput.value = udfinput.value;
-	location = RIFITerm_from_CLIPSValue(env, &clipsinput);
-	if (location == NULL){
-		fprintf(stderr, "myimport couldnt translate "
-				"position argument\n");
-		return;
-	}
-
-	//Check hasnextargument because nextargument halts the run on failure
-	if(UDFHasNextArgument(udfc)){
-		if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &udfinput)){
-			fprintf(stderr, "ClipsInfoModelRulemachine "
-					"Internal Error myimport\n");
-			Eval(env, "(halt)", NULL);
-			return;
-		}
-		clipsinput.value = udfinput.value;
-		entailment_term = RIFITerm_from_CLIPSValue(env, &clipsinput);
-		if (entailment_term == NULL){
-			fprintf(stderr, "myimport couldnt translate entailment\n");
-			return;
-		}
-		if (entailment_term->type != RIF_IRI){
-			fprintf(stderr, "myimport entailment must be iri\n");
-			return;
-		}
-		entailment = entailment_term->value;
-	} else {
-		entailment_term = NULL;
-		entailment = NULL;
-	}
-	switch(location->type){
-		case RIF_IRI:
-			fprintf(stderr, "myimport doesnt support iris yet\n");
-			//err = iri_import();
-			err = 1;
-			break;
-		case RIF_TypedLiteral:
-		case RIF_LangLiteral:
-			cntxt = LoadingInfoModelRulemachine1Data(env);
-			err = relative_import(env,
-					location->value,
-					entailment);
-			break;
-		default:
-			err = 1;
-			fprintf(stderr, "myimport got wrong argument type\n");
-			return;
-	}
-	free_RIFITerm(location);
-	if (entailment != NULL) free_RIFITerm(entailment_term);
-	if (err != 0){
-		UDFThrowError(udfc);
-	}
-}
 
 int relative_import(Environment* env, const char* filepath, const char* entailment)
 {
-	fprintf(stderr, "relative import called with %s %s\n", filepath, entailment);
 	InfoModelRulemachine1Data* cntxt = LoadingInfoModelRulemachine1Data(env);
 	if(cntxt == NULL){
 		return 1;
@@ -134,38 +67,6 @@ int relative_import(Environment* env, const char* filepath, const char* entailme
 				"load_RIFIData_into_environment\n");
 	}
 	return err;
-	/*
-	int err;
-	RIFIData* data;
-	size_t buffersize;
-	size_t qq;
-	char* buffer;
-	if(!cwk_path_is_relative(filepath)){
-		fprintf(stderr, "import with literals support only "
-				"relative filepaths. Got %s\n", filepath);
-		return 1;
-	}
-	fprintf(stderr, "relativeimport 00\n");
-	buffersize = strlen(basepath) + strlen(filepath) + 2;
-	buffer = malloc(buffersize);
-	qq = cwk_path_join(basepath, filepath, buffer, buffersize);
-	fprintf(stderr, "relative import: %s\n", buffer);
-	data = RIFIData_load(buffer, entailment);
-	free(buffer);
-	fprintf(stderr, "relativeimport 01\n");
-	if (data == NULL){
-		fprintf(stderr, "failed to import data from %s.\n", buffer);
-		return 2;
-	}
-	fprintf(stderr, "relativeimport 02\n");
-	err = load_RIFIData_into_Environment(data, env);
-	if(err != 0){
-		fprintf(stderr, "Something went wrong during "
-				"load_RIFIData_into_environment\n");
-	}
-	fprintf(stderr, "relativeimport 03\n");
-	return err;
-	*/
 }
 
 static RIFIData* RIFIData_load(const char* filepath, const char* entailment){
@@ -249,14 +150,16 @@ static int load_RIFIData_into_Environment(RIFIData* data, Environment *env){
 			q = RIFIData_get_next_frame(data, NULL, NULL, NULL))
 	{
 		err = CIMR1_assert_frame(env, q, cntxt);
-		free_RIFIFrame(q);
 		switch(err){
 			case 0:
 				break;
 			default:
 				fprintf(stderr, "failed to assert frame\n");
+				fprintf_RIFIFrame(stderr, q);
+				free_RIFIFrame(q);
 				return 1;
 		}
+		free_RIFIFrame(q);
 	}
 	for(RIFISubclass* q = RIFIData_get_next_subclass(data, NULL, NULL);
 			q != NULL;

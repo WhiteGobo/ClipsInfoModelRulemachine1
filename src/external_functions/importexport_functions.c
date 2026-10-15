@@ -15,8 +15,6 @@ const UDFDescription builtinFunctionList_ImportExport[] = {
 
 
 static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
-	fprintf(stderr, "relative import1\n");
-	return CIMR1_import_rdf(env, udfc, out);
 	int err;
 	Literal *location, *entailment;
 	const char *location_value, *entailment_value;

@@ -4,10 +4,15 @@
 #include "ClipsInfoModelRulemachine1_localnode.h"
 
 
+
+
+
 typedef struct imr1_import_context {
 	LocalTermMap* map;
 	CLIPSValueMap* cvmap;
 } IMR1ImportContext;
+
+
 
 IMR1ImportContext* IMR1ImportContext_new(Environment* env){
 	IMR1ImportContext* ret = malloc(sizeof(IMR1ImportContext));
@@ -44,16 +49,14 @@ CLIPSValue CLIPSValue_from_RIFITerm(Environment* env, IMR1ImportContext* cntxt, 
 			return generate_clipsvalue_from_langliteral(env, term->value, term->suffix);
 		case RIF_List:
 			tmprest = CLIPSValue_from_RIFITerm(env, cntxt, term->rest);
-			if (tmprest.header->type == VOID_TYPE){
-				return retvoid;
-			}
+			//Accept void for tmprest
 			tmpitems = generate_clipsmultifield_from_termlist(env, cntxt, term->list);
 			if (tmpitems == NULL){
 				return retvoid;
 			}
 			return generate_clipsvalue_from_termlist(env, cntxt->map, tmpitems, tmprest);
 		case RIF_Local:
-			//return CLIPSValueMap_get_localnode(cntxt->cvmap, term->value);
+			return CLIPSValueMap_get_localnode(cntxt->cvmap, term->value);
 			return generate_clipssymbol_from_local(env, cntxt->map, term->value);
 		case RIF_Variable:
 			fprintf(stderr, "Cant translate RIFITerm Variable "

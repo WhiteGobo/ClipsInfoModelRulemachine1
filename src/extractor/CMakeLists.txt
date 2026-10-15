@@ -1,6 +1,7 @@
 add_library(ClipsInfoModelRulemachine1_extractor
 	extractor.h
 	extractor.c
+	assert_formulas.c
 	rifi2clips.c
 	userfunction_myimport.c
 )

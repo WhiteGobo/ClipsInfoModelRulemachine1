@@ -12,27 +12,3 @@ Fact* Fact_new_asserted_member(Environment *env, CLIPSValue instance, CLIPSValue
 Fact* Fact_new_asserted_subclass(Environment *env, CLIPSValue sub, CLIPSValue super);
 Fact* Fact_new_asserted_equal(Environment *env, CLIPSValue left, CLIPSValue right);
 
-/**
- * returns 0 on success.
- */
-int CIMR1_assert_frame(Environment *env, RIFIFrame* frame, IMR1ImportContext* cntxt);
-
-/**
- * returns 0 on success.
- */
-int CIMR1_assert_atom(Environment *env, RIFIAtom* atom, IMR1ImportContext* cntxt);
-
-/**
- * returns 0 on success.
- */
-int CIMR1_assert_member(Environment *env, RIFIMember* member, IMR1ImportContext* cntxt);
-
-/**
- * returns 0 on success.
- */
-int CIMR1_assert_subclass(Environment *env, RIFISubclass* subclass, IMR1ImportContext* cntxt);
-
-/**
- * returns 0 on success.
- */
-int CIMR1_assert_equal(Environment *env, RIFIEqual* equal, IMR1ImportContext* cntxt);
