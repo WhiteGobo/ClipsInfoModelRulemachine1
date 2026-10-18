@@ -23,6 +23,8 @@ Literal* Literal_new_localnode(Environment*, const char* startvalue);
 Literal* Literal_from_CLIPSValue(Environment* env, CLIPSValue cv);
 CLIPSValue Literal_to_CLIPSValue(Environment* env, const Literal* x);
 
+bool Literal_check_value_against_regex(Literal*, const char*);
+
 /*
  * Same as Literal_to_CLIPSValue but dont use special functions for typedliteral
  * but use standard serializer instead

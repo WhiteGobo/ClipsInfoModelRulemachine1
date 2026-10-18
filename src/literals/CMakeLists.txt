@@ -1,6 +1,7 @@
 add_library(ClipsInfoModelRulemachine1_literals
 	literals.c
 	literals.h
+	regex.c
 	lexeme.c
 	lexeme.h
 	datatype_to_internal_representation.c

@@ -12,6 +12,7 @@ add_library(ClipsInfoModelRulemachine1_external_functions
 	boolean_functions.c
 	formula_functions.c
 	time_functions.c
+	literal_generator_functions.c
 	importexport_functions.c
 	helper.c
 	helper.h

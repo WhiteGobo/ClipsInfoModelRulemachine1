@@ -17,6 +17,8 @@ Literal* Literal_from_CLIPSValue(Environment* env, CLIPSValue cv){
 			return Literal_from_int(env, cv.integerValue->contents);
 		case FLOAT_TYPE:
 			return Literal_from_float(env, cv.floatValue->contents);
+		case VOID_TYPE:
+			return NULL;
 		default:
 			fprintf(stderr, "ERROR Literal_from_CLIPSValue not fully implemented\n");
 			return NULL;

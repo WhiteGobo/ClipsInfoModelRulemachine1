@@ -64,6 +64,11 @@
 	(test (<http://www.w3.org/2007/rif-builtin-predicate#starts-with> "foobar" "foo"))
 	(test (<http://www.w3.org/2007/rif-builtin-predicate#ends-with> "foobar" "bar"))
 	(test (<http://www.w3.org/2007/rif-builtin-predicate#matches> "abracadabra" (gen-literal "^a.*a$")))
+     	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-anyURI>
+		(gen-literal "http://www.example.org" "http://www.w3.org/2001/XMLSchema#anyURI" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-anyURI> 1 ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-anyURI>
+		(<http://www.w3.org/2001/XMLSchema#anyURI> "http://www.example.org"  )))
 	=>
 	(<http://white.gobo/ClipsInfoModelRulemachine1#import> "http://example.com/data-ok-import")
 )

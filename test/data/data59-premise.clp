@@ -1,0 +1,23 @@
+
+(defrule rule0
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-date> (gen-literal "2000-12-13-11:00" "http://www.w3.org/2001/XMLSchema#date" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-dateTime> (gen-literal "2000-12-13T00:11:11.3" "http://www.w3.org/2001/XMLSchema#dateTime" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-dateTimeStamp> (gen-literal "2000-12-13T00:11:11.3Z" "http://www.w3.org/2001/XMLSchema#dateTimeStamp" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-time> (gen-literal "00:11:11.3Z" "http://www.w3.org/2001/XMLSchema#time" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-dayTimeDuration> (gen-literal "P3DT2H" "http://www.w3.org/2001/XMLSchema#dayTimeDuration" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-yearMonthDuration> (gen-literal "P1Y2M" "http://www.w3.org/2001/XMLSchema#yearMonthDuration" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-date> (gen-literal "foo" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-dateTime> (gen-literal "foo" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-dateTimeStamp> (gen-literal "foo" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-time> (gen-literal "foo" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-dayTimeDuration> (gen-literal "foo" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-not-yearMonthDuration> (gen-literal "foo" ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-date> (<http://www.w3.org/2001/XMLSchema#date>  "2000-12-13-11:00") ) )
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-dateTime> (<http://www.w3.org/2001/XMLSchema#dateTime>  "2000-12-13T00:11:11.3"  ) ))
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-dateTimeStamp> ( <http://www.w3.org/2001/XMLSchema#dateTimeStamp> "2000-12-13T00:11:11.3Z" ) ) )
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-time> ( <http://www.w3.org/2001/XMLSchema#time> "00:11:11.3Z" ) ) )
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-dayTimeDuration> (<http://www.w3.org/2001/XMLSchema#dayTimeDuration> "P3DT2H") ) )
+	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-literal-yearMonthDuration> ( <http://www.w3.org/2001/XMLSchema#yearMonthDuration> "P1Y2M" ) ) )
+	=>
+	(<http://white.gobo/ClipsInfoModelRulemachine1#import> "http://example.com/data-ok-import")
+)

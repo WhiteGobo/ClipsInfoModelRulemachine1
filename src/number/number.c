@@ -26,22 +26,39 @@ struct ret_CLIPSValue_to_int CLIPSValue_round_to_int(Environment* env, CLIPSValu
 	return CLIPSValue_to_int(env, cv);
 }
 
-
-Number CLIPSValue_to_Number(Environment* env, CLIPSValue cv){
+struct ret_CLIPSValue_to_Number CLIPSValue_to_NumberX(Environment* env, CLIPSValue cv){
+	struct ret_CLIPSValue_to_Number ret = {.err = 0};
 	Literal *literal;
 	Decimal as_decimal;
 	switch(cv.header->type){
 		case INTEGER_TYPE:
-			return Number_from_int(cv.integerValue->contents);
+			ret.ret = Number_from_int(cv.integerValue->contents);
+			return ret;
 		case FLOAT_TYPE:
-			return Number_from_float(cv.floatValue->contents);
+			ret.ret = Number_from_float(cv.floatValue->contents);
+			return ret;
 	}
 	literal = Literal_from_CLIPSValue(env, cv);
 	if (literal == NULL){
-		return NUMBER_NAN;
+		ret.ret = NUMBER_NAN;
+		ret.err = 0;
+		return ret;
 	}
 	as_decimal = Decimal_parse(Literal_get_value(literal), -1);
-	return Number_from_decimal(as_decimal);
+	ret.ret = Number_from_decimal(as_decimal);
+	if (Decimal_equal(as_decimal, DECIMAL_NAN)){
+		if(NAN_parse(Literal_get_value(literal))){
+			ret.err = 0;
+		} else {
+			ret.err = 1;
+		}
+	}
+	return ret;
+}
+
+Number CLIPSValue_to_Number(Environment* env, CLIPSValue cv){
+	struct ret_CLIPSValue_to_Number ret = CLIPSValue_to_NumberX(env, cv);
+	return ret.ret;
 }
 
 static CLIPSValue CLIPSValue_from_quotient(Environment* env, Quotient x){

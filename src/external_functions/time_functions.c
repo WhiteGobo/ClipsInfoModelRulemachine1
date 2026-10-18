@@ -4,6 +4,7 @@
 #include "ClipsInfoModelRulemachine1_number.h"
 #include "ClipsInfoModelRulemachine1_time.h"
 
+#include "helper.h"
 #include "namespace_XS.h"
 #include "namespace_FUNC.h"
 #include "namespace_PRED.h"
@@ -79,12 +80,6 @@ static void Duration_less_than(Environment *env, UDFContext *udfc, UDFValue *out
 static void Duration_greater_than(Environment *env, UDFContext *udfc, UDFValue *out);
 static void Duration_less_than_or_equal(Environment *env, UDFContext *udfc, UDFValue *out);
 static void Duration_greater_than_or_equal(Environment *env, UDFContext *udfc, UDFValue *out);
-
-
-static DateTime UDF_get_nth_as_DateTime(Environment*, UDFContext *udfc, unsigned n);
-static Time UDF_get_nth_as_Time(Environment*, UDFContext *udfc, unsigned n);
-static Date UDF_get_nth_as_Date(Environment*, UDFContext *udfc, unsigned n);
-static Duration UDF_get_nth_as_Duration(Environment*, UDFContext *udfc, unsigned n);
 
 
 const UDFDescription builtinFunctionList_Time[] = {
@@ -965,63 +960,6 @@ static void Duration_greater_than_or_equal(Environment *env, UDFContext *udfc, U
 	out->lexemeValue = CreateBoolean(env, ret);
 }
 
-
-
-static DateTime UDF_get_nth_as_DateTime(Environment *env, UDFContext *udfc, unsigned n){
-	DateTime ret;
-	Literal* lit;
-	const char* val;
-	lit = UDF_get_nth_as_literal(udfc, n);
-	val = Literal_get_value(lit);
-	if(val == NULL){
-		return DATETIME_NOTVALID;
-	}
-	ret = DateTime_parse(val);
-	free_Literal(lit);
-	return ret;
-}
-
-static Time UDF_get_nth_as_Time(Environment *env, UDFContext *udfc, unsigned n){
-	Time ret;
-	Literal* lit;
-	const char* val;
-	lit = UDF_get_nth_as_literal(udfc, n);
-	val = Literal_get_value(lit);
-	if(val == NULL){
-		return TIME_NOTVALID;
-	}
-	ret = Time_parse(val);
-	free_Literal(lit);
-	return ret;
-}
-
-static Date UDF_get_nth_as_Date(Environment *env, UDFContext *udfc, unsigned n){
-	Date ret;
-	Literal* lit;
-	const char* val;
-	lit = UDF_get_nth_as_literal(udfc, n);
-	val = Literal_get_value(lit);
-	if(val == NULL){
-		return DATE_NOTVALID;
-	}
-	ret = Date_parse(val);
-	free_Literal(lit);
-	return ret;
-}
-
-static Duration UDF_get_nth_as_Duration(Environment *env, UDFContext *udfc, unsigned n){
-	Duration ret;
-	Literal* lit;
-	const char* val;
-	lit = UDF_get_nth_as_literal(udfc, n);
-	val = Literal_get_value(lit);
-	if(val == NULL){
-		return DURATION_NAN;
-	}
-	ret = Duration_parse(val);
-	free_Literal(lit);
-	return ret;
-}
 
 
 static TypeHeader* TypeHeader_from_Duration(Environment *env, Duration dur){
