@@ -43,6 +43,7 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 			location_value,
 			entailment_value);
 	if (err != 0){
+		rif_import_errorprint(env, err, location_value, entailment_value);
 		UDFThrowError(udfc);
 	}
 	free_Literal(entailment);
