@@ -40,7 +40,6 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 		entailment = NULL;
 		entailment_value = NULL;
 	}
-	fprintf(stderr, "relative import2\n");
 	err = relative_import(env,
 			location_value,
 			entailment_value);

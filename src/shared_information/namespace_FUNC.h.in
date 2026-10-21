@@ -9,12 +9,6 @@
 #define _FUNC_numeric_integer_divide_ "http://www.w3.org/2007/rif-builtin-function#numeric-integer-divide"
 #define _FUNC_numeric_integer_mod_ "http://www.w3.org/2007/rif-builtin-function#numeric-integer-mod"
 #define _FUNC_numeric_mod_ _FUNC_ "numeric-mod"
-#define _FUNC_numeric_equal_ _FUNC_ "numeric-equal"
-#define _FUNC_numeric_not_equal_ _FUNC_ "numeric-not-equal"
-#define _FUNC_numeric_less_than_ _FUNC_ "numeric-less-than"
-#define _FUNC_numeric_less_than_or_equal_ _FUNC_ "numeric-less-than-or-equal"
-#define _FUNC_numeric_greater_than_ _FUNC_ "numeric-greater-than"
-#define _FUNC_numeric_greater_than_or_equal_ _FUNC_ "numeric-greater-than-or-equal"
 #define _FUNC_not_ _FUNC_ "not"
 
 
