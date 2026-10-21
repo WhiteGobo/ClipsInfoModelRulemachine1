@@ -6,6 +6,7 @@
 const UDFDescription builtinFunctionList_ImportExport[];
 
 static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out);
+static void rif_import_errorprint(Environment* env, int err, const char* location, const char* entailment);
 
 const UDFDescription builtinFunctionList_ImportExport[] = {
 	{"<"_CIMR1_import_">", "*", 1, 2, "*",
@@ -27,9 +28,7 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 		return;
 	}
 	if(2 <= UDFArgumentCount(udfc)){
-		fprintf(stderr, "Try to retrieve entailment\n");
 		entailment = UDF_get_nth_as_literal(udfc, 2);
-		fprintf_Literal(stderr, entailment);
 		entailment_value = Literal_get_value(entailment);
 		if(entailment_value == NULL){
 			fprintf(stderr, "ERROR import failed(entailment value)\n");
@@ -43,10 +42,28 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 	err = relative_import(env,
 			location_value,
 			entailment_value);
-	free_Literal(entailment);
-	free_Literal(location);
 	if (err != 0){
-		fprintf(stderr, "ERROR import of rif data failed\n");
 		UDFThrowError(udfc);
 	}
+	free_Literal(entailment);
+	free_Literal(location);
+}
+
+static void rif_import_errorprint(Environment* env, int err, const char* location, const char* entailment)
+{
+	char *tmp;
+	rif_import_errorprint(env, err, location, entailment);
+	WriteString(env, STDERR, "ERROR rif_import of ");
+	WriteString(env, STDERR, location);
+	if (entailment != NULL){
+		WriteString(env, STDERR, " with entailment ");
+		WriteString(env, STDERR, entailment);
+	}
+	WriteString(env, STDERR, " failed.\n");
+	tmp = Environment_get_debug_information_import(env);
+	if(tmp != NULL){
+		WriteString(env, STDERR, tmp);
+	}
+	WriteString(env, STDERR, "\n");
+	free(tmp);
 }

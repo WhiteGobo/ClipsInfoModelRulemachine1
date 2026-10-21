@@ -1,4 +1,5 @@
 add_library(ClipsInfoModelRulemachine1_extractor
+	importdata.c
 	extractor.h
 	extractor.c
 	assert_formulas.c

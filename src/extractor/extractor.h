@@ -9,6 +9,7 @@ IMR1ImportContext* IMR1ImportContext_new(Environment* env);
 void free_IMR1ImportContext(IMR1ImportContext*);
 RIFITerm* RIFITerm_from_CLIPSValue(Environment* env, CLIPSValue* val);
 RIFITermList* RIFITermList_from_CLIPSMultifield(Environment* env, Multifield *multifield);
+char* Environment_get_debug_information_import(Environment*);
 
 CLIPSValue CLIPSValue_from_RIFITerm(Environment* env, IMR1ImportContext* cntxt, const RIFITerm* term);
 

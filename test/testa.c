@@ -12,6 +12,8 @@
 #include <cwalk.h>
 #include <Mime2Rdf4C.h>
 
+#include "reroute2stderr.h"
+
 const char *datapath = NULL;
 const char *conclusionpath = NULL;
 const char *basepath = NULL;
@@ -35,6 +37,7 @@ int main(int argc, char *argv[]){
 		exit(EXIT_FAILURE);
 	}
 	env = CreateEnvironment();
+	reroute2stderr(env, stderr);
 
 	err = InfoModelRulemachine1Data_register(env);
 	if (err != 0){
