@@ -33,6 +33,7 @@
 	(test (eq 1 (<http://www.w3.org/2007/rif-builtin-function#compare> "foo" "bar")))
 	(test (eq 0 (<http://www.w3.org/2007/rif-builtin-function#compare> "bar" "bar")))
 	(test (eq (gen-literal "foobar") (<http://www.w3.org/2007/rif-builtin-function#concat> "foo" "bar")))
+	(test (eq (gen-literal "foobarfoo") (<http://www.w3.org/2007/rif-builtin-function#concat> "foo" "bar" "foo")))
 	(test (eq (gen-literal "foo,bar") (<http://www.w3.org/2007/rif-builtin-function#string-join> "foo" "bar" ",")))
 	(test (eq (gen-literal "bar") (<http://www.w3.org/2007/rif-builtin-function#substring> "foobar" 3)))
 	(test (eq (gen-literal "fo") (<http://www.w3.org/2007/rif-builtin-function#substring> "foobar" 0 3)))

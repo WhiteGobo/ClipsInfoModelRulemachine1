@@ -32,7 +32,7 @@ static void matches(Environment *env, UDFContext *udfc, UDFValue *out);
 const UDFDescription builtinFunctionList_String[] = {
 	{"<"_FUNC_compare_">", "*", 2, 2, "*",
 		compare, "compare"},
-	{"<"_FUNC_concat_">", "*", 2, 2, "*",
+	{"<"_FUNC_concat_">", "*", 2, UNBOUNDED, "*",
 		concat, "concat"},
 	{"<"_FUNC_string_join_">", "*", 3, 3, "*",
 		string_join, "string_join"},
