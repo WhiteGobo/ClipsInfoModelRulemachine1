@@ -53,7 +53,6 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 static void rif_import_errorprint(Environment* env, int err, const char* location, const char* entailment)
 {
 	char *tmp;
-	rif_import_errorprint(env, err, location, entailment);
 	WriteString(env, STDERR, "ERROR rif_import of ");
 	WriteString(env, STDERR, location);
 	if (entailment != NULL){

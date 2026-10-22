@@ -14,3 +14,4 @@ target_link_libraries(ClipsInfoModelRulemachine1_testdriver
 include(configure-datatest.cmake)
 
 add_subdirectory(test_local_values)
+add_subdirectory(errorprinting)

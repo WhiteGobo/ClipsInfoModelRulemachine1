@@ -20,8 +20,8 @@ char* Environment_get_debug_information_import(Environment* env){
 	}
 	tmp = ret;
 	for (ImportLocation* x = import_locations; x != NULL; x = x->next){
-		sprintf(tmp, "%s->%s; ");
-		tmp += strlen(x->path) + strlen(x->iri) + 3;
+		sprintf(tmp, "%s->%s; ", x->iri, x->path);
+		tmp += strlen(tmp);
 	}
 	return ret;
 }
