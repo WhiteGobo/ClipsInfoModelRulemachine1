@@ -8,7 +8,7 @@
 #include <RIFImporterDebug.h>
 
 static char* load_into_memory(const char* filepath);
-static int load_RIFIData_into_Environment(RIFIData* data, Environment *env);
+extern int load_RIFIData_into_Environment(RIFIData* data, Environment *env);
 static RIFIData* RIFIData_load(const char* filepath, const char* entailment);
 
 extern int CIMR1_assert_frame(Environment *env, RIFIFrame* frame, IMR1ImportContext* cntxt);
@@ -16,6 +16,7 @@ extern int CIMR1_assert_atom(Environment *env, RIFIAtom* atom, IMR1ImportContext
 extern int CIMR1_assert_member(Environment *env, RIFIMember* member, IMR1ImportContext* cntxt);
 extern int CIMR1_assert_subclass(Environment *env, RIFISubclass* subclass, IMR1ImportContext* cntxt);
 extern int CIMR1_assert_equal(Environment *env, RIFIEqual* equal, IMR1ImportContext* cntxt);
+
 
 
 int relative_import(Environment* env, const char* filepath, const char* entailment)
@@ -125,7 +126,7 @@ static char* load_into_memory(const char* filepath){
 }
 
 
-static int load_RIFIData_into_Environment(RIFIData* data, Environment *env){
+int load_RIFIData_into_Environment(RIFIData* data, Environment *env){
 	int err;
 	IMR1ImportContext* cntxt = IMR1ImportContext_new(env);
 	if (cntxt==NULL){

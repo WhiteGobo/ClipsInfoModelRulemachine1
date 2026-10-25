@@ -279,5 +279,17 @@
             "purpose": "test equal doesnt duplicate",
 		"premise": "data80-premise.clp",
 		"query": "data-ok-conclusion.rifps"
+	}, {
+		"name": "data81",
+            	"@type": "PositiveEntailment",
+            	"purpose": "test CIMR1:export-rif",
+		"premise": "data81-premise.clp",
+		"query": "data-ok-conclusion.rifps"
+	}, {
+		"name": "data82",
+            	"@type": "PositiveEntailment",
+            	"purpose": "test CIMR1:export-rdf",
+		"premise": "data82-premise.clp",
+		"query": "data82-conclusion.rifps"
 	}]
 }

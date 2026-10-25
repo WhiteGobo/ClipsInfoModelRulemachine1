@@ -71,3 +71,48 @@ Fact* Fact_new_asserted_equal(Environment *env, CLIPSValue left, CLIPSValue righ
         FBDispose(theFB);
 	return ret;
 }
+
+
+Multifield* Environment_get_frames(Environment* env){
+	Multifield* ret;
+	size_t capacity;
+	MultifieldBuilder *mb;
+	mb = CreateMultifieldBuilder(env, capacity);
+
+	Deftemplate *tripletmplt = FindDeftemplate(env, FRAMETEMPLATE);
+	for (Fact* f = GetNextFactInTemplate(tripletmplt, NULL); f!= NULL;
+			f = GetNextFactInTemplate(tripletmplt, f))
+	{
+		MBAppendFact(mb, f);
+	}
+
+	ret = MBCreate(mb);
+	MBDispose(mb);
+	return ret;
+}
+
+CLIPSValue CLIPSValue_Frame_get_object(Environment* env, CLIPSValue cv){
+	CLIPSValue ret;
+	switch(cv.header->type){
+		case FACT_ADDRESS_TYPE:
+			GetFactSlot(cv.factValue, FRAMESLOTOBJECT, &ret);
+			break;
+		default:
+			ret.voidValue = VoidConstant(env);
+	}
+	return ret;
+}
+
+RetFactFrameGetSlot CLIPSValue_Frame_get_slot(Environment* env, CLIPSValue cv){
+	RetFactFrameGetSlot ret;
+	switch(cv.header->type){
+		case FACT_ADDRESS_TYPE:
+			GetFactSlot(cv.factValue, FRAMESLOTSLOTKEY, &(ret.key));
+			GetFactSlot(cv.factValue, FRAMESLOTSLOTVALUE, &(ret.value));
+			break;
+		default:
+			ret.key.voidValue = VoidConstant(env);
+			ret.value.voidValue = VoidConstant(env);
+	}
+	return ret;
+}

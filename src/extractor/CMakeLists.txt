@@ -1,7 +1,11 @@
 add_library(ClipsInfoModelRulemachine1_extractor
-	importdata.c
+	ClipsInfoModelRulemachine1_extractor.h
 	extractor.h
+	importdata.c
+	loader.c
 	extractor.c
+	export.c
+	export_rdf.c
 	assert_formulas.c
 	rifi2clips.c
 	userfunction_myimport.c
@@ -25,4 +29,5 @@ target_link_libraries(ClipsInfoModelRulemachine1_extractor PRIVATE
 	ClipsInfoModelRulemachine1_localnode
 	cwalk
 	DataloaderRDF
+	Mime2Rdf4C
 )

@@ -11,4 +11,7 @@
 #define _CIMR1_literal_to_clipsconstant_ _CIMR1_ "literal-to-clipsconstant"
 #define _CIMR1_local_to_clipsconstant_ _CIMR1_ "local-to-clipsconstant"
 #define _CIMR1_import_ _CIMR1_ "import"
+#define _CIMR1_load_ _CIMR1_ "load"
+#define _CIMR1_export_rif_ _CIMR1_ "export-rif"
+#define _CIMR1_export_rdf_ _CIMR1_ "export-rdf"
 #define _CIMR1_set_graph_in_errorstate_ _CIMR1_ "set-graph-in-errorstate"
