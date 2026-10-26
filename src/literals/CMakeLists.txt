@@ -1,4 +1,5 @@
 add_library(ClipsInfoModelRulemachine1_literals
+	ClipsInfoModelRulemachine1_literals.h
 	literals.c
 	literals.h
 	regex.c
