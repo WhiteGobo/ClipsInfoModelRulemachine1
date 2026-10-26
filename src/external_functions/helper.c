@@ -2,18 +2,6 @@
 #include "ClipsInfoModelRulemachine1_number.h"
 #include "ClipsInfoModelRulemachine1_time.h"
 
-Literal* UDF_get_nth_as_literal(UDFContext *udfc, unsigned n){
-	UDFValue tmpudf;
-	CLIPSValue tmpcv;
-	if(!UDFNthArgument(udfc, n, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "Failed to get %dth argument\n", n);
-		return NULL;
-	}
-	tmpcv.header = tmpudf.header;
-	//TODO use environment
-	return Literal_from_CLIPSValue(NULL, tmpcv);
-}
-
 Number UDF_get_nth_as_Number(Environment* env, UDFContext *udfc, unsigned n){
 	RetGetNthAsNumber ret = UDF_get_nth_as_NumberX(env, udfc, n);
 	return ret.value;

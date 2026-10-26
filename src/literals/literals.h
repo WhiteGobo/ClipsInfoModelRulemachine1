@@ -22,6 +22,7 @@ Literal* Literal_new_langliteral(const char* value, const char* lang);
 Literal* Literal_new_localnode(Environment*, const char* startvalue);
 Literal* Literal_from_CLIPSValue(Environment* env, CLIPSValue cv);
 CLIPSValue Literal_to_CLIPSValue(Environment* env, const Literal* x);
+Literal* UDF_get_nth_as_literal(UDFContext *udfc, unsigned n);
 
 bool Literal_check_value_against_regex(Literal*, const char*);
 
