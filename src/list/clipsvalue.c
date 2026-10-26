@@ -49,7 +49,10 @@ Multifield* CLIPSValue_get_termlist(Environment* env, CLIPSValue cv){
 		case EXTERNAL_ADDRESS_TYPE:
 		case MULTIFIELD_TYPE:
 		default:
-			fprintf(stderr, "CLIPSValue_get_termlist not implemented\n");
+			WriteString(env, STDERR, "CLIPSValue_get_termlist "
+					"not implemented for:");
+			WriteCLIPSValue(env, STDERR, &cv);
+			WriteString(env, STDERR, "\n");
 			return NULL;
 	}
 }
