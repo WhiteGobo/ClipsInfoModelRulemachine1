@@ -64,6 +64,9 @@ static Multifield* arguments_as_multifield(Environment*, UDFContext*);
 
 static Multifield* arguments_as_multifield(Environment *env, UDFContext* udfc){
 	unsigned int argcount = UDFArgumentCount(udfc);
+	if(argcount == 0){
+		return EmptyMultifield(env);
+	}
 	UDFValue tmpudf;
 	Multifield* ret;
 	MultifieldBuilder *mb;

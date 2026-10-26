@@ -2,6 +2,7 @@
 	(test (<http://www.w3.org/2007/rif-builtin-predicate#is-list> (make_list 0 1 2 (make_list 3 4))))
 	(test (<http://www.w3.org/2007/rif-builtin-predicate#list-contains> (make_list 0 1 2 3 (make_list 7 8)) (make_list 7 8)))
 	(test (eq (<http://www.w3.org/2007/rif-builtin-function#make-list> 0 1 2) (make_list 0 1 2)))
+	(test (eq (<http://www.w3.org/2007/rif-builtin-function#make-list>) (make_list)))
 	(test (eq (<http://www.w3.org/2007/rif-builtin-function#count> (make_list 0 1 2 3 4)) 5))
 	(test (eq (<http://www.w3.org/2007/rif-builtin-function#get> (make_list 0 1 2 3 4) -1) 4))
 	(test (eq (<http://www.w3.org/2007/rif-builtin-function#sublist> (make_list 0 1 2 3 4) 0 5) (make_list 0 1 2 3 4)))
