@@ -5,6 +5,7 @@
 #include "namespace_XS.h"
 #include "namespace_FUNC.h"
 #include "namespace_PRED.h"
+#include "namespace_ACT.h"
 
 #include "ClipsInfoModelRulemachine1_string.h"
 #include "ClipsInfoModelRulemachine1_number.h"
@@ -28,6 +29,7 @@ static void contains(Environment *env, UDFContext *udfc, UDFValue *out);
 static void starts_with(Environment *env, UDFContext *udfc, UDFValue *out);
 static void ends_with(Environment *env, UDFContext *udfc, UDFValue *out);
 static void matches(Environment *env, UDFContext *udfc, UDFValue *out);
+static void myprint(Environment *env, UDFContext *udfc, UDFValue *out);
 
 const UDFDescription builtinFunctionList_String[] = {
 	{"<"_FUNC_compare_">", "*", 2, 2, "*",
@@ -64,6 +66,8 @@ const UDFDescription builtinFunctionList_String[] = {
 		ends_with, "ends_with"},
 	{"<"_PRED_matches_">", "b", 2, 2, "*",
 		matches, "matches"},
+	{"<"_ACT_print_">", "b", 1, 1, "*",
+		myprint, "myprint"},
 	{NULL, NULL, 0,0, NULL, NULL, NULL},
 };
 
@@ -575,4 +579,22 @@ static void matches(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	free_Literal(first_lit);
 	free_Literal(second_lit);
+}
+
+static void myprint(Environment *env, UDFContext *udfc, UDFValue *out){
+	const size_t argcount = UDFArgumentCount(udfc);
+	Literal* tmplit;
+	const char* tmpstr;
+	bool ret = true;
+	out->lexemeValue = CreateBoolean(env, ret);
+	for(size_t i= 0; i<argcount; i++){
+		tmplit = UDF_get_nth_as_literal(udfc, i+1);
+		tmpstr = Literal_get_value(tmplit);
+		//STDOUT is defined in clips.h and is the symbol stdout
+		if(tmpstr != NULL){
+			WriteString(env, STDOUT, tmpstr);
+		} else {
+			WriteString(env, STDOUT, "(not a literal)");
+		}
+	}
 }

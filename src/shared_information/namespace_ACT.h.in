@@ -1,0 +1,5 @@
+#pragma once
+
+#define _ACT_ "http://www.w3.org/2007/rif-builtin-action#"
+
+#define _ACT_print_ _ACT_ "print"

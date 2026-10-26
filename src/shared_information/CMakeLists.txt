@@ -3,6 +3,7 @@ set(includepath ${CMAKE_CURRENT_BINARY_DIR})
 foreach(x IN ITEMS
 		"shared_information.h"
 		"namespace_CIMR1.h"
+		"namespace_ACT.h"
 		"namespace_FUNC.h"
 		"namespace_OWL.h"
 		"namespace_PRED.h"
