@@ -4,15 +4,28 @@
 #include "data.h"
 #include "ClipsInfoModelRulemachine1_list.h"
 
+#include "namespace_RDF.h"
+
+typedef struct s_ListLiteral {
+	Literal* first;
+	struct s_ListLiteral* rest;
+} ListLiteral;
+
 typedef struct s_ExportRDFData {
 	Environment* env;
 	int err;
 	Mime2Rdf4C_SerializerConfig* serializer;
+	ListLiteral* tmpliterals;
 } ExportRDFData;
 
-static int send_literal_triple(ExportRDFData cntxt, Literal* lit_obj, Literal* lit_skey, Literal* lit_sval);
+static ListLiteral* ListLiteral_insert(ListLiteral*, Literal*);
+static void free_ListLiteral(ListLiteral*);
+static int send_literal_triple(ExportRDFData *cntxt, Literal* lit_obj, Literal* lit_skey, Literal* lit_sval);
 static ExportRDFData send_frames(ExportRDFData);
 static ExportRDFData send_single_frame(ExportRDFData cntxt, CLIPSValue cv);
+
+static Literal* get_literal_from_object_and_process(ExportRDFData*, CLIPSValue cv);
+static Literal* process_list_and_return_base(ExportRDFData*, CLIPSValue cv);
 
 char* Environment_export_rdf_data(Environment *env, const char* format){
 	ExportRDFData cntxt = {
@@ -38,13 +51,73 @@ char* Environment_export_rdf_data(Environment *env, const char* format){
 	return Mime2Rdf4C_finish(cntxt.serializer);
 }
 
-static Literal* process_list_and_return_base(ExportRDFData cntxt, CLIPSValue cv){
-	fprintf(stderr, "ERROR process_list_and_return_base not implemented\n");
+static Literal* get_literal_from_object_and_process(ExportRDFData *cntxt, CLIPSValue cv)
+{
+	Literal* ret;
+	ret = Literal_from_CLIPSValue(cntxt->env, cv);
+	if(ret != NULL){
+		return ret;
+	}
+	if(CLIPSValue_is_list(cntxt->env, cv)){
+		return process_list_and_return_base(cntxt, cv);
+	}
 	return NULL;
 }
 
+static Literal* process_list_and_return_base(ExportRDFData* cntxt, CLIPSValue cv){
+	int err;
+	Literal *ret, *nil, *first, *rest, *tmplast, *tmplit, *tmpfirst;
+	const char* basename = "local";
+	Multifield* mf = CLIPSValue_get_termlist(cntxt->env, cv);
+	if(mf == NULL){
+		WriteString(cntxt->env, STDERR, "ERROR CLIPSValue_get_termlist "
+				"failed on list\n");
+		cntxt->err = 1;
+		return NULL;
+	}
+	nil = Literal_new_iri(_RDF_nil_, sizeof(_RDF_nil_));
+	first = Literal_new_iri(_RDF_first_, sizeof(_RDF_first_));
+	rest = Literal_new_iri(_RDF_rest_, sizeof(_RDF_rest_));
+	if(nil == NULL || first == NULL || rest == NULL){
+		WriteString(cntxt->env, STDERR,"ERROR Literal_new_iri failed\n");
+		cntxt->err = 1;
+		free_Literal(nil); free_Literal(first); free_Literal(rest);
+		return NULL;
+	}
+	if(mf->length == 0){
+		free_Literal(first); free_Literal(rest);
+		return nil;
+	}
+	ret = Literal_new_localnode(cntxt->env, basename);
+	if(ret == NULL){
+		WriteString(cntxt->env, STDERR,
+				"ERROR Literal_new_localnode failed\n");
+		cntxt->err = 1;
+		return NULL;
+	}
+	cntxt->tmpliterals = ListLiteral_insert(cntxt->tmpliterals, ret);
+	tmpfirst = get_literal_from_object_and_process(cntxt, mf->contents[0]);
+	err = send_literal_triple(cntxt, ret, first, tmpfirst);
+	//TODO check err
+	tmplast = ret;
+	for(size_t i = 1; i < mf->length; i++){
+		tmplit = Literal_new_localnode(cntxt->env, basename);
+		cntxt->tmpliterals = ListLiteral_insert(cntxt->tmpliterals, tmplit);
+		err = send_literal_triple(cntxt, tmplast, rest, tmplit);
+		tmpfirst = get_literal_from_object_and_process(cntxt, mf->contents[i]);
+		err = send_literal_triple(cntxt, tmplit, first, tmpfirst);
+		//TODO check err
+		tmplast = tmplit;
+	}
+	err = send_literal_triple(cntxt, tmplast, rest, nil);
+	free_Literal(nil);
+	free_Literal(first);
+	free_Literal(rest);
+	return ret;
+}
 
-static int send_literal_triple(ExportRDFData cntxt, Literal* lit_obj, Literal* lit_skey, Literal* lit_sval){
+
+static int send_literal_triple(ExportRDFData *cntxt, Literal* lit_obj, Literal* lit_skey, Literal* lit_sval){
 	int64_t err;
 	const char* subject;
 	uint8_t subject_type;
@@ -88,7 +161,7 @@ static int send_literal_triple(ExportRDFData cntxt, Literal* lit_obj, Literal* l
 			predicate,
 			object, object_suffix,
 			object_type,
-			NULL, BNODE, cntxt.serializer);
+			NULL, BNODE, cntxt->serializer);
 	return err;
 }
 
@@ -122,20 +195,14 @@ static ExportRDFData send_single_frame(ExportRDFData cntxt, CLIPSValue cv){
 		fprintf(stderr, "WARNING send_frames(slotkey)\n");
 		return cntxt;
 	}
-	lit_sval = Literal_from_CLIPSValue(cntxt.env, slot.value);
-	if(lit_sval == NULL){
-		if(CLIPSValue_is_list(cntxt.env, slot.value)){
-			lit_sval = process_list_and_return_base(
-						cntxt, slot.value);
-		}
-	}
+	lit_sval = get_literal_from_object_and_process(&cntxt, slot.value);
 	if (lit_sval == NULL){
 		fprintf(stderr, "WARNING send_frames(slotvalue)\n");
 		free_Literal(lit_obj);
 		free_Literal(lit_skey);
 		return cntxt;
 	}
-	err = send_literal_triple(cntxt, lit_obj, lit_skey, lit_sval);
+	err = send_literal_triple(&cntxt, lit_obj, lit_skey, lit_sval);
 	free_Literal(lit_obj);
 	free_Literal(lit_skey);
 	free_Literal(lit_sval);
@@ -143,4 +210,26 @@ static ExportRDFData send_single_frame(ExportRDFData cntxt, CLIPSValue cv){
 		fprintf(stderr, "ERROR send_literal_triple\n");
 	}
 	return cntxt;
+}
+
+
+static ListLiteral* ListLiteral_insert(ListLiteral* oldlist, Literal* x){
+	ListLiteral* ret = malloc(sizeof(ListLiteral));
+	if (ret == NULL){
+		fprintf(stderr, "CRITICAL ERROR malloc failed\n");
+		return NULL;
+	}
+	ret->rest = oldlist;
+	ret->first = x;
+	return ret;
+}
+
+static void free_ListLiteral(ListLiteral* x){
+	ListLiteral* rest;
+	while(x != NULL){
+		rest = x->rest;
+		free_Literal(x->first);
+		free(x);
+		x = rest;
+	}
 }

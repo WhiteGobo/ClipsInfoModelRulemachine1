@@ -66,7 +66,7 @@ const UDFDescription builtinFunctionList_String[] = {
 		ends_with, "ends_with"},
 	{"<"_PRED_matches_">", "b", 2, 2, "*",
 		matches, "matches"},
-	{"<"_ACT_print_">", "b", 1, 1, "*",
+	{"<"_ACT_print_">", "b", 1, UNBOUNDED, "*",
 		myprint, "myprint"},
 	{NULL, NULL, 0,0, NULL, NULL, NULL},
 };

@@ -73,25 +73,6 @@ Literal* Literal_from_CLIPSSymbol(Environment* env, CLIPSLexeme* x){
 }
 
 
-Literal* Literal_new_iri(const char* x, size_t l){
-	Literal* ret;
-	ret = malloc(sizeof(Literal));
-	if (ret == NULL){
-		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
-		return NULL;
-	}
-	ret->type = URI;
-	ret->suffix = NULL;
-	ret->value = malloc(l +1);
-	if (ret->value == NULL){
-		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
-		return NULL;
-	}
-	memcpy(ret->value, x, l);
-	ret->value[l] = '\0';
-	return ret;
-}
-
 static Literal* Literal_from_bnode(Environment* env, CLIPSLexeme* x){
 	Literal* ret;
 	ret = malloc(sizeof(Literal));
@@ -99,6 +80,7 @@ static Literal* Literal_from_bnode(Environment* env, CLIPSLexeme* x){
 		WriteString(env, STDERR, "CRITICAL ERROR: malloc failed\n");
 		return NULL;
 	}
+	ret->t = LITERAL_LEXEME;
 	ret->type = BNODE;
 	ret->env = env;
 	ret->lexeme = x;

@@ -114,6 +114,7 @@ Literal* Literal_new_langliteral(const char* value, const char* lang){
 	if (value == NULL) return NULL;
 	ret = malloc(sizeof(Literal));
 	if (ret == NULL) return NULL;
+	ret->t = LITERAL_TERM;
 	ret->value = malloc(strlen(value) + 1);
 	strcpy(ret->value, value);
 	if (lang == NULL){
@@ -131,6 +132,7 @@ Literal* Literal_new(const char* value, const char* datatype){
 	if (value == NULL) return NULL;
 	ret = malloc(sizeof(Literal));
 	if (ret == NULL) return NULL;
+	ret->t = LITERAL_TERM;
 	ret->value = malloc(strlen(value) + 1);
 	strcpy(ret->value, value);
 	if (datatype == NULL){
@@ -143,6 +145,26 @@ Literal* Literal_new(const char* value, const char* datatype){
 	return ret;
 }
 
+
+Literal* Literal_new_iri(const char* x, size_t l){
+	Literal* ret;
+	ret = malloc(sizeof(Literal));
+	if (ret == NULL){
+		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
+		return NULL;
+	}
+	ret->t = LITERAL_TERM;
+	ret->type = URI;
+	ret->suffix = NULL;
+	ret->value = malloc(l +1);
+	if (ret->value == NULL){
+		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
+		return NULL;
+	}
+	memcpy(ret->value, x, l);
+	ret->value[l] = '\0';
+	return ret;
+}
 
 
 
@@ -173,6 +195,14 @@ void free_Literal(Literal* x){
 			break;
 	}
 	free(x);
+}
+
+static const char* Literal_term_get_value(Literal *x){
+	return x->value;
+}
+
+static const char* Literal_lexeme_get_value(Literal *x){
+	return x->lexeme->contents + 2;
 }
 
 const char* Literal_get_value(Literal* x){
