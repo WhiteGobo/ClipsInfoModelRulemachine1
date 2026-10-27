@@ -291,5 +291,11 @@
             	"purpose": "test CIMR1:export-rdf",
 		"premise": "data82-premise.clp",
 		"query": "data82-conclusion.rifps"
+	}, {
+		"name": "data83",
+            	"@type": "PositiveEntailment",
+            	"purpose": "test CIMR1:export-rdf for lists",
+		"premise": "data83-premise.clp",
+		"query": "data83-conclusion.rifps"
 	}]
 }
