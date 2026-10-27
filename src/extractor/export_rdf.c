@@ -162,7 +162,17 @@ static int send_literal_triple(ExportRDFData *cntxt, Literal* lit_obj, Literal* 
 			object, object_suffix,
 			object_type,
 			NULL, BNODE, cntxt->serializer);
-	return err;
+	if(err != 0){
+		WriteString(cntxt->env, STDERR, "Failed to send triple: (");
+		WriteLiteral(cntxt->env, STDERR, lit_obj);
+		WriteString(cntxt->env, STDERR, ", ");
+		WriteLiteral(cntxt->env, STDERR, lit_skey);
+		WriteString(cntxt->env, STDERR, ", ");
+		WriteLiteral(cntxt->env, STDERR, lit_sval);
+		WriteString(cntxt->env, STDERR, ")\n");
+		return 1;
+	}
+	return 0;
 }
 
 
