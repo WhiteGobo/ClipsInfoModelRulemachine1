@@ -20,7 +20,9 @@ Literal* Literal_from_CLIPSValue(Environment* env, CLIPSValue cv){
 		case VOID_TYPE:
 			return NULL;
 		default:
-			fprintf(stderr, "ERROR Literal_from_CLIPSValue not fully implemented\n");
+			WriteString(env, STDERR, "ERROR Literal_from_CLIPSValue not implemented for ");
+			WriteCLIPSValue(env, STDERR, &cv);
+			WriteString(env, STDERR, "\n");
 			return NULL;
 	}
 }
@@ -43,8 +45,9 @@ CLIPSValue Literal_to_CLIPSValue_plain(Environment* env, const Literal* x){
 			return gen(env, x->value, x->suffix);
 		case BNODE:
 			if (x->env != env){
-				fprintf_Literal(stderr, x);
-				fprintf(stderr, "ERROR Literal_to_CLIPSValue\n");
+				WriteString(env, STDERR, "ERROR Literal_to_CLIPSValue ");
+				WriteLiteral(env, STDERR, x);
+				WriteString(env, STDERR, "\n");
 				return void_value;
 			}
 			ret.lexemeValue = x->lexeme;
@@ -72,8 +75,9 @@ CLIPSValue Literal_to_CLIPSValue(Environment* env, const Literal* x){
 			return gen(env, x->value, x->suffix);
 		case BNODE:
 			if (x->env != env){
-				fprintf_Literal(stderr, x);
-				fprintf(stderr, "ERROR Literal_to_CLIPSValue\n");
+				WriteString(env, STDERR, "ERROR Literal_to_CLIPSValue ");
+				WriteLiteral(env, STDERR, x);
+				WriteString(env, STDERR, "\n");
 				return void_value;
 			}
 			ret.lexemeValue = x->lexeme;
@@ -205,7 +209,39 @@ TERMTYPE Literal_get_type(Literal* x){
 	return x->type;
 }
 
-void fprintf_Literal(FILE* f, Literal* x){
+void WriteLiteral(Environment* env, const char* logicalName, const Literal* x){
+	char *tmp;
+	if (x == NULL){
+		WriteString(env, logicalName, "(NULL)");
+		return;
+	}
+	switch(x->type){
+		case URI:
+			tmp = malloc(strlen(x->value) + 5);
+			sprintf(tmp, "<%s>", x->value);
+			break;
+		case LANGLITERAL:
+			tmp = malloc(strlen(x->value) + strlen(x->suffix) + 8);
+			sprintf(tmp, "\"%s\"@%s", x->value, x->suffix);
+			break;
+		case TYPEDLITERAL:
+			tmp = malloc(strlen(x->value) + strlen(x->suffix) + 8);
+			sprintf(tmp, "\"%s\"^^%s", x->value, x->suffix);
+			break;
+		case BNODE:
+			tmp = malloc(strlen(x->lexeme->contents) + 4);
+			sprintf(tmp, "%s", x->lexeme->contents);
+			break;
+		default:
+			tmp = malloc(20);
+			sprintf(tmp, "(unknown)");
+			break;
+	}
+	WriteString(env, logicalName, tmp);
+	free(tmp);
+}
+
+void fprintf_Literal(FILE* f, const Literal* x){
 	if (x == NULL){
 		fprintf(f, "(NULL)");
 		return;

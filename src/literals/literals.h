@@ -40,4 +40,5 @@ const char* Literal_get_lang(Literal*);
 const char* Literal_get_datatype(Literal*);
 TERMTYPE Literal_get_type(Literal*);
 
-void fprintf_Literal(FILE*, Literal*);
+void fprintf_Literal(FILE*, const Literal*);
+void WriteLiteral(Environment*, const char* logicalName, const Literal*);
