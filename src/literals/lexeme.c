@@ -16,7 +16,9 @@ Literal* Literal_from_CLIPSString(Environment* env, CLIPSLexeme* x){
 	for(const char* tmp=x->contents; *tmp != '\0'; tmp++){
 		if(*tmp == '@'){
 			if(tmp[1] != '@'){
-				fprintf(stderr, "ERROR broken literal\n");
+				WriteString(env, STDERR, "ERROR ");
+				WriteString(env, STDERR, x->contents);
+				WriteString(env, STDERR, " is broken literal\n");
 				return NULL;
 			}
 			lang = tmp+2;
@@ -24,7 +26,9 @@ Literal* Literal_from_CLIPSString(Environment* env, CLIPSLexeme* x){
 			break;
 		} else if (*tmp == '^'){
 			if(tmp[1] != '^'){
-				fprintf(stderr, "ERROR broken literal\n");
+				WriteString(env, STDERR, "ERROR ");
+				WriteString(env, STDERR, x->contents);
+				WriteString(env, STDERR, " is broken literal\n");
 				return NULL;
 			}
 			type = tmp+2;
@@ -62,7 +66,9 @@ Literal* Literal_from_CLIPSSymbol(Environment* env, CLIPSLexeme* x){
 	if(x->contents[0] == '_' && x->contents[1] == ':'){
 		return Literal_from_bnode(env, x);
 	}
-	fprintf(stderr, "ERROR Literal_from_CLIPSSymbol: CV not a Literal\n");
+	WriteString(env, STDERR, "ERROR Literal_from_CLIPSSymbol: ");
+	WriteString(env, STDERR, x->contents);
+	WriteString(env, STDERR, " not a Literal\n");
 	return NULL;
 }
 
@@ -90,7 +96,7 @@ static Literal* Literal_from_bnode(Environment* env, CLIPSLexeme* x){
 	Literal* ret;
 	ret = malloc(sizeof(Literal));
 	if (ret == NULL){
-		fprintf(stderr, "CRITICAL ERROR: malloc failed\n");
+		WriteString(env, STDERR, "CRITICAL ERROR: malloc failed\n");
 		return NULL;
 	}
 	ret->type = BNODE;
