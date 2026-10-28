@@ -16,10 +16,8 @@ bool CLIPSValue_is_list(Environment* env, CLIPSValue cv){
 	CIMR1List* tmplist;
 	switch(cv.header->type){
 		case FACT_ADDRESS_TYPE:
-			fprintf(stderr, "is_list: fact\n");
 			return Fact_is_list(env, cv.factValue);
 		case EXTERNAL_ADDRESS_TYPE:
-			fprintf(stderr, "is_list: external address\n");
 			tmplist = CVExternalAddress_get_CIMR1List(cv.externalAddressValue);
 			return tmplist != NULL;
 		case MULTIFIELD_TYPE:
