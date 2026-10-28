@@ -640,8 +640,6 @@ static void is_not_dateTime(Environment *env, UDFContext *udfc, UDFValue *out){
 		out->lexemeValue = CreateBoolean(env, true);
 		return;
 	}
-	fprintf(stderr, "qwertz 1234\n");
-	fprintf_DateTime(stderr, value);
 	out->lexemeValue = CreateBoolean(env, false);
 }
 static void is_dateTimeStamp(Environment *env, UDFContext *udfc, UDFValue *out){

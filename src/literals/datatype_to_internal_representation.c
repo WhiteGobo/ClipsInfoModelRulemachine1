@@ -89,7 +89,6 @@ Func_CLIPSValueFromLiteralValue* get_literal_generator_from_datatype(Environment
 	} else if (MYTEST("time")){
 		return CLIPSValue_from_time;
 	} else if (MYTEST("string")){
-		fprintf(stderr, "qwertz 1234 string\n");
 		return CLIPSValue_from_string;
 	//} else if (MYTEST("normalizedString")){
 	//	return CLIPSValue_from_string;
@@ -110,7 +109,6 @@ Func_CLIPSValueFromLiteralValue* get_literal_generator_from_datatype(Environment
 	//} else if (MYTEST("hexBinary")){
 	//	return CLIPSValue_from_hexBinary;
 	}
-	fprintf(stderr, "qwertz 1234 not string %s %s\n", datatype, suffix);
 #undef MYTEST
 	return CLIPSValue_from_any;
 }
