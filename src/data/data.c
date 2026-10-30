@@ -72,6 +72,24 @@ Fact* Fact_new_asserted_equal(Environment *env, CLIPSValue left, CLIPSValue righ
 	return ret;
 }
 
+Multifield* Environment_get_members(Environment* env){
+	Multifield* ret;
+	size_t capacity;
+	MultifieldBuilder *mb;
+	mb = CreateMultifieldBuilder(env, capacity);
+
+	Deftemplate *membertmplt = FindDeftemplate(env, MEMBERTEMPLATE);
+	for (Fact* f = GetNextFactInTemplate(membertmplt, NULL); f!= NULL;
+			f = GetNextFactInTemplate(membertmplt, f))
+	{
+		MBAppendFact(mb, f);
+	}
+
+	ret = MBCreate(mb);
+	MBDispose(mb);
+	return ret;
+}
+
 
 Multifield* Environment_get_frames(Environment* env){
 	Multifield* ret;
@@ -88,6 +106,29 @@ Multifield* Environment_get_frames(Environment* env){
 
 	ret = MBCreate(mb);
 	MBDispose(mb);
+	return ret;
+}
+
+CLIPSValue CLIPSValue_Member_get_instance(Environment* env, CLIPSValue cv){
+	CLIPSValue ret;
+	switch(cv.header->type){
+		case FACT_ADDRESS_TYPE:
+			GetFactSlot(cv.factValue, MEMBERSLOTINSTANCE, &ret);
+			break;
+		default:
+			ret.voidValue = VoidConstant(env);
+	}
+	return ret;
+}
+CLIPSValue CLIPSValue_Member_get_class(Environment* env, CLIPSValue cv){
+	CLIPSValue ret;
+	switch(cv.header->type){
+		case FACT_ADDRESS_TYPE:
+			GetFactSlot(cv.factValue, MEMBERSLOTCLASS, &ret);
+			break;
+		default:
+			ret.voidValue = VoidConstant(env);
+	}
 	return ret;
 }
 

@@ -23,6 +23,8 @@ static void free_ListLiteral(ListLiteral*);
 static int send_literal_triple(ExportRDFData *cntxt, Literal* lit_obj, Literal* lit_skey, Literal* lit_sval);
 static ExportRDFData send_frames(ExportRDFData);
 static ExportRDFData send_single_frame(ExportRDFData cntxt, CLIPSValue cv);
+static ExportRDFData send_members(ExportRDFData);
+static ExportRDFData send_single_member(ExportRDFData cntxt, CLIPSValue cv);
 
 static Literal* get_literal_from_object_and_process(ExportRDFData*, CLIPSValue cv);
 static Literal* process_list_and_return_base(ExportRDFData*, CLIPSValue cv);
@@ -44,6 +46,10 @@ char* Environment_export_rdf_data(Environment *env, const char* format){
 	}
 
 	cntxt = send_frames(cntxt);
+	if (cntxt.err != 0){
+		return NULL;
+	}
+	cntxt = send_members(cntxt);
 	if (cntxt.err != 0){
 		return NULL;
 	}
@@ -176,6 +182,56 @@ static int send_literal_triple(ExportRDFData *cntxt, Literal* lit_obj, Literal* 
 }
 
 
+static ExportRDFData send_members(ExportRDFData cntxt){
+	Multifield* members = Environment_get_members(cntxt.env);
+	if (members == NULL){
+		return cntxt;
+	}
+	RetainMultifield(cntxt.env, members);
+	for (size_t i = 0; i<members->length; i++){
+		cntxt = send_single_member(cntxt, members->contents[i]);
+	}
+	ReleaseMultifield(cntxt.env, members);
+	return cntxt;
+}
+
+
+static ExportRDFData send_single_member(ExportRDFData cntxt, CLIPSValue cv){
+	int err;
+	Literal *lit1, *lit2, *lit3;
+	const CLIPSValue instance = CLIPSValue_Member_get_instance(cntxt.env, cv);
+	const CLIPSValue class = CLIPSValue_Member_get_class(cntxt.env, cv);
+	lit1 = Literal_from_CLIPSValue(cntxt.env, instance);
+	if (lit1 == NULL){
+		fprintf(stderr, "WARNING send_\n");
+		return cntxt;
+	}
+	lit2 = Literal_new_iri(
+		"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+		sizeof("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
+	if (lit2 == NULL){
+		free_Literal(lit1);
+		fprintf(stderr, "WARNING send_\n");
+		return cntxt;
+	}
+	lit3 = get_literal_from_object_and_process(&cntxt, class);
+	if (lit3 == NULL){
+		fprintf(stderr, "WARNING send_\n");
+		free_Literal(lit1);
+		free_Literal(lit2);
+		return cntxt;
+	}
+	err = send_literal_triple(&cntxt, lit1, lit2, lit3);
+	free_Literal(lit1);
+	free_Literal(lit2);
+	free_Literal(lit3);
+	if (err != 0){
+		fprintf(stderr, "ERROR send_literal_triple\n");
+	}
+	return cntxt;
+}
+
+
 static ExportRDFData send_frames(ExportRDFData cntxt){
 	Multifield* frames = Environment_get_frames(cntxt.env);
 	if (frames == NULL){
@@ -188,6 +244,7 @@ static ExportRDFData send_frames(ExportRDFData cntxt){
 	ReleaseMultifield(cntxt.env, frames);
 	return cntxt;
 }
+
 
 static ExportRDFData send_single_frame(ExportRDFData cntxt, CLIPSValue cv){
 	int err;

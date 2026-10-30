@@ -20,3 +20,7 @@ Fact* Fact_new_asserted_equal(Environment *env, CLIPSValue left, CLIPSValue righ
 Multifield* Environment_get_frames(Environment*);
 CLIPSValue CLIPSValue_Frame_get_object(Environment*, CLIPSValue);
 RetFactFrameGetSlot CLIPSValue_Frame_get_slot(Environment*, CLIPSValue);
+
+Multifield* Environment_get_members(Environment*);
+CLIPSValue CLIPSValue_Member_get_instance(Environment*, CLIPSValue);
+CLIPSValue CLIPSValue_Member_get_class(Environment*, CLIPSValue);
