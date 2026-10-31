@@ -38,6 +38,7 @@ void free_Literal(Literal*);
 const char* Literal_get_value(Literal*);
 const char* Literal_get_lang(Literal*);
 const char* Literal_get_datatype(Literal*);
+Environment* Literal_get_environment(Literal*);
 TERMTYPE Literal_get_type(Literal*);
 
 void fprintf_Literal(FILE*, const Literal*);

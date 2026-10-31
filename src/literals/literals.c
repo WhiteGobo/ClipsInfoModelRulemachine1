@@ -272,6 +272,21 @@ void WriteLiteral(Environment* env, const char* logicalName, const Literal* x){
 	free(tmp);
 }
 
+Environment* Literal_get_environment(Literal* x){
+	if (x == NULL){
+		return NULL;
+	}
+	switch(x->type){
+		case BNODE:
+			return x->env;
+		case URI:
+		case LANGLITERAL:
+		case TYPEDLITERAL:
+		default:
+			return NULL;
+	}
+}
+
 void fprintf_Literal(FILE* f, const Literal* x){
 	if (x == NULL){
 		fprintf(f, "(NULL)");

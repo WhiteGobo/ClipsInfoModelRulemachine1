@@ -6,6 +6,7 @@
 
 #include "namespace_RDF.h"
 
+//TODO this list is just so that clipsvalues are save. replace to clipsvalue list
 typedef struct s_ListLiteral {
 	Literal* first;
 	struct s_ListLiteral* rest;
@@ -18,7 +19,8 @@ typedef struct s_ExportRDFData {
 	ListLiteral* tmpliterals;
 } ExportRDFData;
 
-static ListLiteral* ListLiteral_insert(ListLiteral*, Literal*);
+static void fprintf_ListLiteral(FILE* f, ListLiteral* list);
+static ListLiteral* ListLiteral_insert(ListLiteral*, const Literal*);
 static void free_ListLiteral(ListLiteral*);
 static int send_literal_triple(ExportRDFData *cntxt, Literal* lit_obj, Literal* lit_skey, Literal* lit_sval);
 static ExportRDFData send_frames(ExportRDFData);
@@ -280,7 +282,13 @@ static ExportRDFData send_single_frame(ExportRDFData cntxt, CLIPSValue cv){
 }
 
 
-static ListLiteral* ListLiteral_insert(ListLiteral* oldlist, Literal* x){
+static ListLiteral* ListLiteral_insert(ListLiteral* oldlist, const Literal* x){
+	Environment *env = Literal_get_environment(x);
+	if (env == NULL){
+		//Only save Literals that are environment specific
+		return oldlist;
+	}
+	Literal* cpy = Literal_from_CLIPSValue(env, Literal_to_CLIPSValue(env, x));
 	ListLiteral* ret = malloc(sizeof(ListLiteral));
 	if (ret == NULL){
 		fprintf(stderr, "CRITICAL ERROR malloc failed\n");
@@ -299,4 +307,13 @@ static void free_ListLiteral(ListLiteral* x){
 		free(x);
 		x = rest;
 	}
+}
+
+static void fprintf_ListLiteral(FILE* f, ListLiteral* list){
+	fprintf(f, "[");
+	for(ListLiteral* x=list; x != NULL; x=x->rest){
+		fprintf_Literal(f, x->first);
+		fprintf(f, " ");
+	}
+	fprintf(f, "]");
 }
