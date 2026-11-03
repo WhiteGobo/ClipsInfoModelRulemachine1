@@ -181,8 +181,7 @@ static void get(Environment *env, UDFContext *udfc, UDFValue *out){
 	err_and_index = CLIPSValue_to_int(env, cv_index);
 	if(0 != err_and_index.err){
 		fprintf(stderr, "ERROR: func:get index not int\n");
-		//TODO dont throw error yet. Its just undefined so this isnt required to throw an error. But its dificult how to handle. Maybe return local so it will never fulfil any equality.
-		//UDFThrowError(udfc);
+		UDFThrowError(udfc);
 		return;
 	}
 	index = err_and_index.ret;
@@ -190,7 +189,8 @@ static void get(Environment *env, UDFContext *udfc, UDFValue *out){
 	ret = CLIPSValue_get_item(env, cv_list, index);
 	if (ret.header->type == VOID_TYPE){
 		fprintf(stderr, "func:get failed\n");
-		UDFThrowError(udfc);
+		//TODO dont throw error yet. Its just undefined so this isnt required to throw an error. But its dificult how to handle. Maybe return local so it will never fulfil any equality.
+		//UDFThrowError(udfc);
 		return;
 	}
 	out->header = ret.header;
