@@ -160,6 +160,7 @@ static void count(Environment *env, UDFContext *udfc, UDFValue *out){
 }
 
 static void get(Environment *env, UDFContext *udfc, UDFValue *out){
+	out->voidValue = VoidConstant(env);
 	CLIPSValue ret;
 	struct ret_CLIPSValue_to_int err_and_index;
 	int index;
@@ -180,7 +181,8 @@ static void get(Environment *env, UDFContext *udfc, UDFValue *out){
 	err_and_index = CLIPSValue_to_int(env, cv_index);
 	if(0 != err_and_index.err){
 		fprintf(stderr, "ERROR: func:get index not int\n");
-		UDFThrowError(udfc);
+		//TODO dont throw error yet. Its just undefined so this isnt required to throw an error. But its dificult how to handle. Maybe return local so it will never fulfil any equality.
+		//UDFThrowError(udfc);
 		return;
 	}
 	index = err_and_index.ret;
