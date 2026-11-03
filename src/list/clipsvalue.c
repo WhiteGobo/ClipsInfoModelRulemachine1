@@ -462,7 +462,7 @@ static int normalize_index(int index, size_t length){
 	if (index < 0){
 		index += length;
 	}
-	if (index < 0 || index > length){
+	if (index < 0 || index >= length){
 		return -1;
 	}
 	return index;
