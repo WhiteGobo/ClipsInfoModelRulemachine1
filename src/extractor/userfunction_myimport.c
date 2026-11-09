@@ -51,15 +51,16 @@ int relative_import(Environment* env, const char* filepath, const char* entailme
 	}
 	err = DRDFDataloader_load_data(dataloader, filepath,
 					(TripleHandler*) RIFIGraph_add, graph);
-	free_DRDFDataloader(dataloader);
 	if (err != 0){
 		fprintf(stderr, "Internal Error. "
 				"DRDFDataloader_load_data failed\n");
 		fprintf(stderr, "Tried loading from %s with ", filepath);
 		fprintf_DRDFDataloader(stderr, dataloader);
 		fprintf(stderr, "\n");
+		free_DRDFDataloader(dataloader);
 		return 1;
 	}
+	free_DRDFDataloader(dataloader);
 	RIFIData* data = RIFIGraph_to_RIFIData(graph, entailment);
 	if (data == NULL){
 		fprintf(stderr, "Internal Error.RIFIGraph_to_RIFIData failed\n");
