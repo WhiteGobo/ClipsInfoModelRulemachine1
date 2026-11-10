@@ -303,5 +303,17 @@
             	"purpose": "test CIMR1:export-rdf for members",
 		"premise": "data84-premise.clp",
 		"query": "data84-conclusion.rifps"
+	}, {
+		"name": "data90",
+		"@type": "PositiveEntailment",
+		"purpose": "test return value of import",
+		"premise": "data90-premise.clp",
+		"query": "data90-conclusion.rifps"
+	}, {
+		"name": "data91",
+            	"@type": "NegativeEntailment",
+		"purpose": "test return value of import",
+		"premise": "data91-premise.clp",
+		"query": "data91-conclusion.rifps"
 	}]
 }

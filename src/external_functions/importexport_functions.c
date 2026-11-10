@@ -142,9 +142,11 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 	err = relative_import(env,
 			location_value,
 			entailment_value);
-	if (err != 0){
+	if(err == 0){
+		out->lexemeValue = TrueSymbol(env);
+	} else {
 		rif_import_errorprint(env, err, location_value, entailment_value);
-		UDFThrowError(udfc);
+		out->lexemeValue = FalseSymbol(env);
 	}
 	free_Literal(entailment);
 	free_Literal(location);

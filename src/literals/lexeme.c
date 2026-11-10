@@ -1,6 +1,7 @@
 #include "literals.h"
 #include "lexeme.h"
 #include "ClipsInfoModelRulemachine1_string.h"
+#include "namespace_XS.h"
 
 #include "struct_literal.h"
 
@@ -51,11 +52,27 @@ Literal* Literal_from_CLIPSString(Environment* env, CLIPSLexeme* x){
 	return ret;
 }
 
+static Literal* Literal_new_true(){
+	return Literal_new("1", _XS_boolean_);
+}
+static Literal* Literal_new_false(){
+	return Literal_new("0", _XS_boolean_);
+}
+
 Literal* Literal_from_CLIPSSymbol(Environment* env, CLIPSLexeme* x){
+	//TODO move env!=NULL as start condition
 	if(x == NULL) return NULL;
 	size_t len;
 	Literal* ret;
 
+	if(env != NULL){
+		if(x == FalseSymbol(env)){
+			return Literal_new_false();
+		}
+		if(x == TrueSymbol(env)){
+			return Literal_new_true();
+		}
+	}
 	len = strlen(x->contents);
 	if(len < 2){
 		return NULL;

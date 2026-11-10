@@ -108,7 +108,7 @@ static RIFIAtom* Fact_to_RIFIAtom(Environment* env, Fact* fact){
 
 	op = RIFITerm_from_CLIPSValue(env, &tmpValue);
 	if (op == NULL){
-		fprintf(stderr, "Failed to get op from Atom"
+		fprintf(stderr, "INTERNAL ERROR Failed to get op from Atom"
 				"(Fact_to_RIFIAtom)\n");
 		return NULL;
 	}
@@ -116,7 +116,7 @@ static RIFIAtom* Fact_to_RIFIAtom(Environment* env, Fact* fact){
 	if (tmpValue.header->type == MULTIFIELD_TYPE){
 		args = RIFITermList_from_CLIPSMultifield(env, tmpValue.multifieldValue);
 	} else {
-		fprintf(stderr, "ClipsInfoModelRulemachine1 internal error; "
+		fprintf(stderr, "INTERNAL ERROR ClipsInfoModelRulemachine1; "
 				"Atom args didnt returned multifield\n");
 		return NULL;
 	}

@@ -16,6 +16,10 @@ RIFITermList* RIFITermList_from_CLIPSMultifield(Environment* env, Multifield *mu
 	RIFITerm* tmp_term;
 	for (int i = 0; i < multifield->length; i++){
 		tmp_term = RIFITerm_from_CLIPSValue(env, multifield->contents + i);
+		if(tmp_term == NULL){
+			free_RIFITermList(ret);
+			return NULL;
+		}
 		ret = RIFITermList_append(ret, tmp_term);
 	}
 	return ret;
