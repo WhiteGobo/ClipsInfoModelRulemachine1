@@ -1,5 +1,6 @@
 include(CTest)
 add_subdirectory(reroute2stderr)
+add_subdirectory(import)
 
 add_executable(ClipsInfoModelRulemachine1_testdriver
 	testa.c

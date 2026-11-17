@@ -1,8 +1,6 @@
 add_library(ClipsInfoModelRulemachine1_extractor
 	ClipsInfoModelRulemachine1_extractor.h
 	extractor.h
-	importdata.c
-	loader.c
 	extractor.c
 	export.c
 	export_rdf.c
@@ -24,6 +22,7 @@ target_link_libraries(ClipsInfoModelRulemachine1_extractor PUBLIC
 target_link_libraries(ClipsInfoModelRulemachine1_extractor PRIVATE
 	ClipsInfoModelRulemachine1_shared_information
 	ClipsInfoModelRulemachine1_data
+	ClipsInfoModelRulemachine1_data_importer
 	ClipsInfoModelRulemachine1_literals
 	ClipsInfoModelRulemachine1_list
 	ClipsInfoModelRulemachine1_localnode

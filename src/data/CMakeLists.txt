@@ -1,3 +1,5 @@
+add_subdirectory(importer)
+
 add_library(ClipsInfoModelRulemachine1_data
 	data.c
 	data.h

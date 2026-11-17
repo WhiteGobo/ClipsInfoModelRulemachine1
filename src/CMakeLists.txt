@@ -35,6 +35,7 @@ target_link_libraries(ClipsInfoModelRulemachine1 PUBLIC
 target_link_libraries(ClipsInfoModelRulemachine1 PRIVATE
 	ClipsInfoModelRulemachine1_extractor
 	ClipsInfoModelRulemachine1_shared_information
+	ClipsInfoModelRulemachine1_data_importer
 	Mime2Rdf4C
 	ClipsInfoModelRulemachine1_external_functions
 )

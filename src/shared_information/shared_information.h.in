@@ -28,10 +28,10 @@
 #define ATOMLISTSLOTITEMS "items"
 //#define ATOMLISTSLOTREST "rest"
 
-typedef struct s_ImportLocation ImportLocation;
+//typedef struct s_ImportLocation ImportLocation;
 
 typedef struct infoModelRulemachine1Data {
-	ImportLocation* import_locations;
+	//ImportLocation* import_locations;
 	size_t local_prefix_id;
 } InfoModelRulemachine1Data;
 
@@ -41,6 +41,7 @@ typedef struct infoModelRulemachine1Data {
 size_t CIMR1_get_next_local_prefix_id(Environment* env);
 
 
+/*
 typedef struct s_ImportLocation {
 	char* iri;
 	char* path;
@@ -50,3 +51,4 @@ typedef struct s_ImportLocation {
 ImportLocation* ImportLocation_new(const char* iri, const char* path);
 int ImportLocation_append(ImportLocation* first, ImportLocation* new);
 void free_ImportLocation(ImportLocation*);
+*/

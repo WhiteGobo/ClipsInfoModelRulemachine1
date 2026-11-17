@@ -8,7 +8,7 @@
 #include <RIFImporterDebug.h>
 
 static char* load_into_memory(const char* filepath);
-extern int load_RIFIData_into_Environment(RIFIData* data, Environment *env);
+static int load_RIFIData_into_Environment(RIFIData* data, Environment *env);
 static RIFIData* RIFIData_load(const char* filepath, const char* entailment);
 
 extern int CIMR1_assert_frame(Environment *env, RIFIFrame* frame, IMR1ImportContext* cntxt);
@@ -19,6 +19,7 @@ extern int CIMR1_assert_equal(Environment *env, RIFIEqual* equal, IMR1ImportCont
 
 
 
+/*
 int relative_import(Environment* env, const char* filepath, const char* entailment)
 {
 	InfoModelRulemachine1Data* cntxt = LoadingInfoModelRulemachine1Data(env);
@@ -73,6 +74,7 @@ int relative_import(Environment* env, const char* filepath, const char* entailme
 	}
 	return err;
 }
+*/
 
 static RIFIData* RIFIData_load(const char* filepath, const char* entailment){
 	int err;
@@ -130,7 +132,7 @@ static char* load_into_memory(const char* filepath){
 }
 
 
-int load_RIFIData_into_Environment(RIFIData* data, Environment *env){
+static int load_RIFIData_into_Environment(RIFIData* data, Environment *env){
 	int err;
 	IMR1ImportContext* cntxt = IMR1ImportContext_new(env);
 	if (cntxt==NULL){

@@ -3,6 +3,7 @@
 #include "helper.h"
 
 #include "namespace_CIMR1.h"
+#include "ClipsInfoModelRulemachine1_data_importer.h"
 
 
 const UDFDescription builtinFunctionList_ImportExport[];
@@ -57,7 +58,7 @@ static void rif_load(Environment *env, UDFContext *udfc, UDFValue *out){
 		entailment_lit = NULL;
 		entailment_value = NULL;
 	}
-	err = CIMR1_load_data_from_rdf(env, data_value, format_value, entailment_value);
+	err = Environment_import_from_data(env, data_value, format_value, entailment_value);
 	if (err != 0){
 		fprintf(stderr, "Failed CIMR1_load_data_from_rdf\n");
 		UDFThrowError(udfc);
@@ -139,7 +140,7 @@ static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 		entailment = NULL;
 		entailment_value = NULL;
 	}
-	err = relative_import(env,
+	err = Environment_import_from_iri(env,
 			location_value,
 			entailment_value);
 	if(err == 0){
@@ -162,7 +163,7 @@ static void rif_import_errorprint(Environment* env, int err, const char* locatio
 		WriteString(env, STDERR, entailment);
 	}
 	WriteString(env, STDERR, " failed.\n");
-	tmp = Environment_get_debug_information_import(env);
+	tmp = Environment_get_debug_information_for_import(env);
 	if(tmp != NULL){
 		WriteString(env, STDERR, tmp);
 	}

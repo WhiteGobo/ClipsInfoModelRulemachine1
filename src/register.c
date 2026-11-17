@@ -1,6 +1,7 @@
 #include "ClipsInfoModelRulemachine1.h"
 #include "shared_information.h"
 #include "external_functions.h"
+#include "ClipsInfoModelRulemachine1_data_importer.h"
 
 bool load_basic_templates(Environment *env);
 
@@ -8,32 +9,10 @@ static bool InfoModelRulemachine1Data_initialize(InfoModelRulemachine1Data *data
 static void InfoModelRulemachine1Data_release(Environment *env);
 
 int InfoModelRulemachine1Data_add_local_import_location(Environment *env, const char* iri, const char* path){
-	ImportLocation* x;
-	if (iri == NULL) {
-		fprintf(stderr, "InfoModelRulemachine1Data_add_local_import"
-				"_location failed because no iri was given\n");
-		return 1;
-	}
-	if (path == NULL) {
-		fprintf(stderr, "InfoModelRulemachine1Data_add_local_import"
-				"_location failed because no path was given\n");
-		return 1;
-	}
-	InfoModelRulemachine1Data *data;
-	ImportLocation* loc = ImportLocation_new(iri, path);
-	if (loc == NULL) {
-		fprintf(stderr, "Internal Error: ImportLocation_new failed\n");
-		return 1;
-	}
-	data = LoadingInfoModelRulemachine1Data(env);
-	if (data->import_locations == NULL){
-		data->import_locations = loc;
-	} else {
-		ImportLocation_append(data->import_locations, loc);
-	}
-	return 0;
+	return Environment_add_local_import_location(env, iri, path);
 }
 
+/*
 ImportLocation* ImportLocation_new(const char* iri, const char* path){
 	if(iri == NULL || path == NULL) return NULL;
 	ImportLocation* new = malloc(sizeof(ImportLocation));
@@ -62,7 +41,7 @@ void free_ImportLocation(ImportLocation* x){
 	free(x->path);
 	free(x);
 }
-
+*/
 /*int InfoModelRulemachine1Data_set_basepath(Environment *env, const char* path){
 	if (path == NULL) return 1;
 	InfoModelRulemachine1Data *data;
@@ -77,6 +56,10 @@ int InfoModelRulemachine1Data_register(Environment *env){
 	bool success;
 	InfoModelRulemachine1Data *data;
 	if(!load_basic_templates(env)){
+		ExitRouter(env, EXIT_FAILURE);
+		return 1;
+	}
+	if(0 != Environment_register_ClipsInfoModelRulemachine1_data_importer(env)){
 		ExitRouter(env, EXIT_FAILURE);
 		return 1;
 	}
@@ -105,7 +88,7 @@ int InfoModelRulemachine1Data_register(Environment *env){
 
 static bool InfoModelRulemachine1Data_initialize(InfoModelRulemachine1Data *data){
 	int err;
-	data->import_locations = NULL;
+	//data->import_locations = NULL;
 	data->local_prefix_id = 0;
 	return true;
 }
@@ -114,5 +97,5 @@ static bool InfoModelRulemachine1Data_initialize(InfoModelRulemachine1Data *data
 static void InfoModelRulemachine1Data_release(Environment *env){
 	InfoModelRulemachine1Data *data;
 	data = LoadingInfoModelRulemachine1Data(env);
-	free_ImportLocation(data->import_locations);
+	//free_ImportLocation(data->import_locations);
 }

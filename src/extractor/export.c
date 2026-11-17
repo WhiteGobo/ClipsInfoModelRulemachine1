@@ -48,7 +48,6 @@ char* Environment_export_rif_data(Environment *env, const char* format){
 
 
 static RIFIData* get_all_data(Environment *env){
-	fprintf(stderr, "get_all_data\n");
 	RIFIFormulas* formulas = RIFIFormulas_new();
 	if(0 != add_frame_data(env, formulas)){
 		return NULL;
