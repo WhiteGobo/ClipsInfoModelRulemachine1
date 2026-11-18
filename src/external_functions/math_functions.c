@@ -59,13 +59,13 @@ static void add(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR add\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR add\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -93,13 +93,13 @@ static void subtract(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR subtract\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR subtract\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -119,13 +119,13 @@ static void multiply(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR multiply\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR multiply\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -145,13 +145,13 @@ static void divide(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR divide\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR divide\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -172,13 +172,13 @@ static void integer_divide(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR integer_divide\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR integer_divide\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -197,13 +197,13 @@ static void mod(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR mod\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR mod\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -224,13 +224,13 @@ static void equal(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -250,13 +250,13 @@ static void not_equal(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR not_equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR not_equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -276,13 +276,13 @@ static void less_than(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR less_than\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR less_than\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -303,13 +303,13 @@ static void less_than_or_equal(Environment *env, UDFContext *udfc, UDFValue *out
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR less_than_or_equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR less_than_or_equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -329,13 +329,13 @@ static void greater_than(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR greater_than\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR greater_than\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -356,13 +356,13 @@ static void greater_than_or_equal(Environment *env, UDFContext *udfc, UDFValue *
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR greater_than_or_equal\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.value = tmpudf.value;
 	if (!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR greater_than_or_equal\n");
 		UDFThrowError(udfc);
 		return;
 	}

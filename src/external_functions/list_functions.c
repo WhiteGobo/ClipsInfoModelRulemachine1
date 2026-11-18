@@ -95,7 +95,7 @@ static void is_list(Environment *env, UDFContext *udfc, UDFValue *out)
 
 	out->voidValue = VoidConstant(env);
 	if (!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR is_list\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -123,13 +123,13 @@ static void list_contains(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_item;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR list_contains\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_list.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR list_contains\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -144,7 +144,7 @@ static void count(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue tmpclips;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR count\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -167,13 +167,13 @@ static void get(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_index;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR get\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_list.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR get\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -203,13 +203,13 @@ static void sublist(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_index;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR sublist\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_list.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR sublist\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -224,7 +224,7 @@ static void sublist(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	if(UDFHasNextArgument(udfc)){
 		if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-			fprintf(stderr, "brubru err1\n");
+			fprintf(stderr, "ERROR sublist\n");
 			UDFThrowError(udfc);
 			return;
 		}
@@ -259,7 +259,7 @@ static void append(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_item;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR append\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -267,14 +267,14 @@ static void append(Environment *env, UDFContext *udfc, UDFValue *out){
 	
 	while(UDFHasNextArgument(udfc)){
 		if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-			fprintf(stderr, "brubru err1\n");
+			fprintf(stderr, "ERROR append\n");
 			UDFThrowError(udfc);
 			return;
 		}
 		cv_item.header = tmpudf.header;
 		cv_list = CLIPSValue_append(env, cv_list, cv_item);
 		if(cv_list.header->type == VOID_TYPE){
-			fprintf(stderr, "brubru err1\n");
+			fprintf(stderr, "ERROR append\n");
 			UDFThrowError(udfc);
 			return;
 		}
@@ -288,20 +288,20 @@ static void concatenate(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv1, cv2, cv_ret;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR concatenate\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR concatenate\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv2.header = tmpudf.header;
 	cv_ret = CLIPSValue_concatenate(env, cv1, cv2);
 	if(cv_ret.header->type == VOID_TYPE){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR concatenate\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -315,27 +315,27 @@ static void insert_before(Environment *env, UDFContext *udfc, UDFValue *out){
 	CLIPSValue cvlist, cv_item, cv_index, cv_ret;
 	int index;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR insert_before\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cvlist.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR insert_before\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_index.header = tmpudf.header;
 	err_and_index = CLIPSValue_to_int(env, cv_index);
 	if (err_and_index.err != 0){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR insert_before\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	index = err_and_index.ret;
 
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR insert_before\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -343,7 +343,7 @@ static void insert_before(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	cv_ret = CLIPSValue_insert_before(env, cvlist, index, cv_item);
 	if(cv_ret.header->type == VOID_TYPE){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR insert_before\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -356,13 +356,13 @@ static void my_remove(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_index, cv_ret;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR remove\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_list.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR remove\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -376,7 +376,7 @@ static void my_remove(Environment *env, UDFContext *udfc, UDFValue *out){
 
 	cv_ret = CLIPSValue_remove(env, cv_list, err_and_index.ret);
 	if(cv_ret.header->type == VOID_TYPE){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR remove\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -387,14 +387,14 @@ static void reverse(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_ret;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR reverse\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_list.header = tmpudf.header;
 	cv_ret = CLIPSValue_reverse(env, cv_list);
 	if(cv_ret.header->type == VOID_TYPE){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR reverse\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -405,13 +405,13 @@ static void index_of(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_list, cv_ret, cv_item;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR index_of\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv_list.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR index_of\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -424,13 +424,13 @@ static void my_union(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_ret, cv1, cv2;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR union\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR union\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -448,7 +448,7 @@ static void distinct_values(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_ret, cv1, cv2;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR distinct_values\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -461,13 +461,13 @@ static void intersect(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_ret, cv1, cv2;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR intersect\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR intersect\n");
 		UDFThrowError(udfc);
 		return;
 	}
@@ -480,13 +480,13 @@ static void except(Environment *env, UDFContext *udfc, UDFValue *out){
 	UDFValue tmpudf;
 	CLIPSValue cv_ret, cv1, cv2;
 	if(!UDFFirstArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR except\n");
 		UDFThrowError(udfc);
 		return;
 	}
 	cv1.header = tmpudf.header;
 	if(!UDFNextArgument(udfc, ANY_TYPE_BITS, &tmpudf)){
-		fprintf(stderr, "brubru err1\n");
+		fprintf(stderr, "ERROR except\n");
 		UDFThrowError(udfc);
 		return;
 	}
