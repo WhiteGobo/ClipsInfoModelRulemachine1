@@ -152,6 +152,12 @@ char* Environment_generate_import_iri_from_path(Environment* env, const char* pa
 	return CallbackConfig_path2iri(config, path);
 }
 
+DataDescription Environment_get_import_data_from_iri(Environment* env, const char* iri)
+{
+	CallbackConfig* config = Environment_get_importer_CallbackConfig(env);
+	return CallbackConfig_get_data(config, iri);
+}
+
 char* Environment_get_debug_information_for_import(Environment* env){
 	char* ret;
 	CallbackConfig* config = Environment_get_importer_CallbackConfig(env);

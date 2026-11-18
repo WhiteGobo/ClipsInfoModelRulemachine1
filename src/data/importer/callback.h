@@ -22,6 +22,7 @@ void free_CallbackConfig(CallbackConfig*);
 
 int CallbackConfig_add_local_location(CallbackConfig*, const char* iri, const char* path);
 char* CallbackConfig_path2iri(CallbackConfig*, const char* path);
+//char* CallbackConfig_iri2path(CallbackConfig*, const char* iri);
 DataDescription CallbackConfig_get_data(CallbackConfig*, const char* iri);
 void release_DataDescription(DataDescription);
 

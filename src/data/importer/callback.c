@@ -1,18 +1,13 @@
 #include "ClipsInfoModelRulemachine1_data_importer.h"
 #include "callback.h"
+#include "callback_internal.h"
 #include <cwalk.h>
 
-typedef struct s_Path2IriList {
-	Path2Iri first;
-	struct s_Path2IriList* rest;
-} Path2IriList;
-
-typedef struct s_CallbackConfig {
-	Path2IriList* path2iri_list;
-} CallbackConfig;
 
 static Path2IriList* Path2IriList_insert(Path2IriList*, const char* path, const char* iri);
 static void free_Path2IriList(Path2IriList*);
+static char* Path2Iri_path2iri(Path2Iri*, const char* path, size_t lpath);
+static char* Path2Iri_iri2path(Path2Iri*, const char* iri, size_t liri);
 
 CallbackConfig* CallbackConfig_new(){
 	CallbackConfig* ret = malloc(sizeof(CallbackConfig));
@@ -32,14 +27,16 @@ void free_CallbackConfig(CallbackConfig* x){
 
 int CallbackConfig_add_local_location(CallbackConfig* cfg, const char* iri, const char* path){
 	if(cfg == NULL || iri == NULL || path == NULL){
-		fprintf(stderr, "brubru\n");
+		if(cfg == NULL){fprintf(stderr, "brubru1\n");}
+		if(iri == NULL){fprintf(stderr, "brubru2\n");}
+		if(path == NULL){fprintf(stderr, "brubru3\n");}
+		fprintf(stderr, "brubru123\n");
 		return 1;
 	}
 	cfg->path2iri_list = Path2IriList_insert(cfg->path2iri_list, path, iri);
 	return 0;
 }
 
-static char* Path2Iri_path2iri(Path2Iri*, const char* path, size_t lpath);
 
 char* CallbackConfig_path2iri(CallbackConfig* cfg, const char* path){
 	char* ret;
@@ -75,22 +72,42 @@ static char* Path2Iri_path2iri(Path2Iri* path2iri, const char* path, size_t lpat
 	return ret;
 }
 
+/*
+char* CallbackConfig_iri2path(CallbackConfig*, const char* iri){
+	char* ret;
+	size_t liri = strlen(iri);
+	for(Path2IriList* x = cfg->path2iri_list; x != NULL; x = x->rest){
+		ret = Path2Iri_iri2path(&(x->first), iri, liri);
+		if(ret != NULL){
+			return ret;
+		}
+	}
+	return NULL;
+}
 
-DataDescription CallbackConfig_get_data(CallbackConfig*, const char* iri){
-	DataDescription ret = {.data= NULL, .format=NULL};
-	fprintf(stderr, "CallbackConfig_get_data not implemented\n");
+static char* Path2Iri_iri2path(Path2Iri* path2iri, const char* iri, size_t liri)
+{
+	size_t lret;
+	char* ret;
+	int tmpi;
+	size_t lbaseiri = strlen(path2iri->iri);
+	if(lbaseiri > liri){
+		return NULL;
+	}
+	if(0 != memcmp(path2iri->iri, iri, lbaseiri)){
+		return NULL;
+	}
+	//We expect that path2iri->path and path2iri->iri ends with a separator
+	lret = strlen(path2iri->path) + liri - lbaseiri + 1;
+	ret = malloc(lret + 1);
+	if(ret == NULL){
+		fprintf(stderr, "CRITICAL ERROR malloc failed\n");
+	}
+	sprintf(ret, "%s%s", path2iri->path, path+lbaseiri);
 	return ret;
 }
+*/
 
-
-void release_DataDescription(DataDescription x){
-	if(x.data != NULL){
-		free(x.data);
-	}
-	if(x.format != NULL){
-		free(x.format);
-	}
-}
 
 Path2IriArray* CallbackConfig_get_all_path2iri(CallbackConfig* cfg){
 	Path2IriArray* ret = malloc(sizeof(Path2IriArray));

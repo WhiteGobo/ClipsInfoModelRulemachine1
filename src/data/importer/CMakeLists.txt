@@ -2,6 +2,7 @@ add_library(ClipsInfoModelRulemachine1_data_importer
 	ClipsInfoModelRulemachine1_data_importer.h
 	importer.c
 	callback.c
+	callback_get_data.c
 	callback.h
 	rifidata.c
 )
