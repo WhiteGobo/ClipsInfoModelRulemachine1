@@ -16,5 +16,6 @@ int Environment_import_from_iri(Environment* env, const char* iri, const char* e
 char* Environment_generate_import_iri_from_path(Environment*, const char* path);
 DataDescription Environment_get_import_data_from_iri(Environment*, const char* iri);
 
+bool Environment_is_importable(Environment*, CLIPSValue location);
 
 char* Environment_get_debug_information_for_import(Environment* env);

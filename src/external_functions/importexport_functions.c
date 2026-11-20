@@ -9,6 +9,7 @@
 const UDFDescription builtinFunctionList_ImportExport[];
 
 static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out);
+static void can_be_imported(Environment *env, UDFContext *udfc, UDFValue *out);
 static void rif_import_errorprint(Environment* env, int err, const char* location, const char* entailment);
 static void rif_load(Environment *env, UDFContext *udfc, UDFValue *out);
 static void rif_export(Environment *env, UDFContext *udfc, UDFValue *out);
@@ -17,6 +18,8 @@ static void rdf_export(Environment *env, UDFContext *udfc, UDFValue *out);
 const UDFDescription builtinFunctionList_ImportExport[] = {
 	{"<"_CIMR1_import_">", "*", 1, 2, "*",
 		rif_import, "rif_import"},
+	{"<"_CIMR1_can_be_imported_">", "b", 1, 1, "*",
+		can_be_imported, "can_be_imported"},
 	{"<"_CIMR1_load_">", "*", 2, 3, "*",
 		rif_load, "rif_load"},
 	{"<"_CIMR1_export_rif_">", "*", 0, 1, "*",
@@ -115,6 +118,22 @@ static void rdf_export(Environment *env, UDFContext *udfc, UDFValue *out){
 	free_Literal(retlit);
 }
 
+static void can_be_imported(Environment *env, UDFContext *udfc, UDFValue *out){
+	bool ret;
+	int err;
+	CLIPSValue location_cv;
+	UDFValue tmpudf;
+	if(!UDFNthArgument(udfc, 1, ANY_TYPE_BITS, &tmpudf)){
+		fprintf(stderr, "Failed to get first argument\n");
+		out->lexemeValue = CreateBoolean(env, false);
+		//UDFThrowError
+		return;
+	}
+	location_cv.value = tmpudf.value;
+
+	ret = Environment_is_importable(env, location_cv);
+	out->lexemeValue = CreateBoolean(env, ret);
+}
 
 static void rif_import(Environment *env, UDFContext *udfc, UDFValue *out){
 	int err;

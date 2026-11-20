@@ -1,5 +1,6 @@
 #include "ClipsInfoModelRulemachine1_data_importer.h"
 #include "callback.h"
+#include "ClipsInfoModelRulemachine1_literals.h"
 
 #include <Mime2Rdf4C.h>
 #include <DataloaderRDF.h>
@@ -50,6 +51,31 @@ int Environment_add_local_import_location(Environment *env, const char* iri, con
 	return err;
 }
 
+bool Environment_is_importable(Environment* env, CLIPSValue location_cv){
+	bool ret;
+	Literal* location_lit;
+	const char* val_location;
+	location_lit = Literal_from_CLIPSValue(env, location_cv);
+	val_location = Literal_get_value(location_lit);
+	if(val_location == NULL){
+		free_Literal(location_lit);
+		return false;
+	}
+	CallbackConfig* config = Environment_get_importer_CallbackConfig(env);
+	fprintf(stderr, "WARNING Environment_is_importable is not fully implemetned\n");
+	switch(Literal_get_type(location_lit)){
+		case URI:
+		case TYPEDLITERAL:
+		case LANGLITERAL:
+			ret = true;
+			break;
+		case BNODE:
+		default:
+			ret = false;
+	}
+	free_Literal(location_lit);
+	return ret;
+}
 
 int Environment_import_from_iri(Environment* env, const char* iri, const char* entailment){
 	int err;

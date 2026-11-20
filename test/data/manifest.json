@@ -315,5 +315,11 @@
 		"purpose": "test return value of import",
 		"premise": "data91-premise.clp",
 		"query": "data91-conclusion.rifps"
+	}, {
+		"name": "data92",
+		"@type": "PositiveEntailment",
+		"purpose": "test function can-be-imported",
+		"premise": "data92-premise.clp",
+		"query": "data-ok-conclusion.rifps"
 	}]
 }
