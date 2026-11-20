@@ -134,6 +134,7 @@ void free_Path2IriArray(Path2IriArray* x){
 		free(x->contents[i].path);
 		free(x->contents[i].iri);
 	}
+	free(x->contents);
 	free(x);
 }
 
