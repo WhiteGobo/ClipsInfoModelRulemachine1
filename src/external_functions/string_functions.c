@@ -596,5 +596,6 @@ static void myprint(Environment *env, UDFContext *udfc, UDFValue *out){
 		} else {
 			WriteString(env, STDOUT, "(not a literal)");
 		}
+		free_Literal(tmplit);
 	}
 }
