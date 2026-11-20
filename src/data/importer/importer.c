@@ -167,12 +167,12 @@ char* Environment_get_debug_information_for_import(Environment* env){
 		return ret;
 	}
 	Path2IriArray* qq = CallbackConfig_get_all_path2iri(config);
-	size_t l = sizeof("ImportInformation()"+5);
+	size_t l = sizeof("ImportIri2Path()")+5;
 	for (size_t i = 0; i<qq->len; i++){
 		Path2Iri x = qq->contents[i];
 		l += sizeof("->, ") + strlen(x.path) + strlen(x.iri);
 	}
-	ret = malloc(l);
+	ret = malloc(l+1);
 	char* tmp = ret;
 	sprintf(tmp, "ImportIri2Path(");
 	tmp += strlen(tmp);
